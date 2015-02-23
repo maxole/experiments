@@ -49,7 +49,8 @@ namespace Core.Serializer
             var builder = new StringBuilder();
             using (var writer = new StringWriter(builder))
             {
-                var serializer = new XmlSerializer(data.GetType(), "");
+                var type = data.GetType();
+                var serializer = new XmlSerializer(type, type.AssemblyQualifiedName);
                 serializer.Serialize(writer, data);
             }            
             return builder;
@@ -64,8 +65,31 @@ namespace Core.Serializer
         {
             using (var reader = new StringReader(builder.ToString()))
             {
-                var serializer = new XmlSerializer(typeof(T), "");
+                var serializer = new XmlSerializer(typeof(T), typeof(T).AssemblyQualifiedName);
                 return (T)serializer.Deserialize(reader);
+            }
+        }
+
+        public bool CanDeserialize<T>(StringBuilder builder)
+        {
+            using (var reader = new StringReader(builder.ToString()))
+            {
+                var document = XDocument.Load(reader);
+                if (document.Root == null)
+                    throw new Exception("error in reader xml");
+
+                if (!document.Root.HasElements)
+                    return false;
+                var element = document.Root;
+                if (element == null)
+                    return false;
+
+                var typeName = element.FirstAttribute.Value;
+                var type = Type.GetType(typeName);
+                if (type == null)
+                    return false;
+
+                return type == typeof (T);
             }
         }
 

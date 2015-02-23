@@ -25,11 +25,15 @@ namespace Core.Repository
         public IEnumerable<T> Fetch<T>() where T : IEntity
         {
             var path = GetDirectory();
-            return Directory.GetFiles(path, "*.xml").Select(file =>
-            {
-                var content = File.ReadAllText(file, _encoding);
-                return new StringBuilder(content);
-            }).Select(builder => new XmlDataSerializer().Deserialize<T>(builder));
+            var serializer = new XmlDataSerializer();
+            return Directory.GetFiles(path, "*.xml")
+                .Select(file =>
+                {
+                    var content = File.ReadAllText(file, _encoding);
+                    return new StringBuilder(content);
+                })
+                .Where(serializer.CanDeserialize<T>)
+                .Select(serializer.Deserialize<T>);
         }
 
         public void Save<T>(T data) where T : IEntity
