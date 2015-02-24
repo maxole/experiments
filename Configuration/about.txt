@@ -1,0 +1,49 @@
+
+состав
+	Demo                  - демо проект
+	ConfiguratorDecorator - базовый класс дл€ декораторов настроек
+	ConfiguratorManager   - менеджер настроек
+	Plugin                - плагин без декоратора настроек
+	PluginWithDecorator   - плагие с декоратором настроек
+	SeparateDecorator     - отдельна€ сборка дл€ Plugin содержаща€ декоратор настроек
+
+зависимости
+	Demo
+		-> ConfiguratorDecorator
+		-> ConfiguratorManager
+
+	ConfiguratorManager
+		-> ConfiguratorDecorator
+
+	ConfiguratorDecorator
+		-> нет зависимостей
+
+	PluginWithDecorator
+		-> ConfiguratorDecorator
+
+	Plugin
+		-> нет зависимостей
+
+	SeparateDecorator
+		-> ConfiguratorDecorator
+		-> Plugin
+
+описание основных модулей
+	Demo - 
+		тестовый проек загружающий плагины, позвол€ет выполнить настройку их параметров
+
+	ConfiguratorManager -
+		менеджер настроек плагинов, выполн€ет сканирование заданной папки, выполн€ет загрузку 
+		дотупных плагинов, декораторов, осуществл€ем сохранение настроек
+
+	ConfiguratorDecorator -
+		базовый класс декораторов
+
+описание плагинов
+	Plugin -
+		плагин без поддержки декоратора, но реализующий свои настройки
+	SeparateDecorator -
+		отделна€ сборка содержаща€ декоратор дл€ Plugin
+
+	PluginWithDecorator -
+		плагин с поддержкой декоратора, также есть свои настройки
