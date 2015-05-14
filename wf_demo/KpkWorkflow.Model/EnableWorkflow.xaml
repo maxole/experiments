@@ -1,0 +1,174 @@
+﻿<Activity mc:Ignorable="sads sap" x:Class="KpkWorkflow.Model.EnableWorkflow"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:local="clr-namespace:KpkWorkflow.Model"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mv="clr-namespace:Microsoft.VisualBasic;assembly=System"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:s1="clr-namespace:System;assembly=System"
+ xmlns:s2="clr-namespace:System;assembly=System.Core"
+ xmlns:sa="clr-namespace:System.Activities;assembly=System.Activities"
+ xmlns:sad="clr-namespace:System.Activities.Debugger;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System"
+ xmlns:scg1="clr-namespace:System.Collections.Generic;assembly=System.Core"
+ xmlns:scg2="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sl="clr-namespace:System.Linq;assembly=System.Core"
+ xmlns:st="clr-namespace:System.Threading;assembly=System.Core"
+ xmlns:st1="clr-namespace:System.Threading;assembly=System"
+ xmlns:st2="clr-namespace:System.Text;assembly=mscorlib"
+ xmlns:st3="clr-namespace:System.Threading;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="State" Type="InArgument(local:ActivityState)" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>276,369</sap:VirtualizedContainerService.HintSize>
+  <mva:VisualBasic.Settings>Assembly references and imported namespaces for internal implementation</mva:VisualBasic.Settings>
+  <CancellationScope sad:XamlDebuggerXmlReader.FileName="C:\Users\MaximMO\Downloads\Windows Workflow Foundation (WF4) - How to use Workflow from WPF\C#\KpkWorkflow.Model\EnableWorkflow.xaml" sap:VirtualizedContainerService.HintSize="236,289">
+    <Flowchart sap:VirtualizedContainerService.HintSize="614,636">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <av:Point x:Key="ShapeLocation">10,2.5</av:Point>
+          <av:Size x:Key="ShapeSize">60,75</av:Size>
+          <av:PointCollection x:Key="ConnectorLocation">70,40 100,40 100,50 150,50</av:PointCollection>
+        </scg2:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Flowchart.StartNode>
+        <x:Reference>__ReferenceID6</x:Reference>
+      </Flowchart.StartNode>
+      <FlowSwitch x:TypeArguments="local:ActivityState" x:Name="__ReferenceID4" Expression="[State]" sap:VirtualizedContainerService.HintSize="70,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">255,216.5</av:Point>
+            <av:Size x:Key="ShapeSize">70,87</av:Size>
+            <av:PointCollection x:Key="NextConnector">255,260 120,260 120,379</av:PointCollection>
+            <av:PointCollection x:Key="CancelConnector">325,260 470,260 470,379</av:PointCollection>
+          </scg2:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <FlowStep x:Key="Next" x:Name="__ReferenceID1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">20,379</av:Point>
+              <av:Size x:Key="ShapeSize">200,22</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">120,401 120,441 220,441</av:PointCollection>
+            </scg2:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <local:MessageNotificationActivity2 sap:VirtualizedContainerService.HintSize="200,22" Key="you pick Next key" MessageType="[New MessageTypeInfo()]" Result="[State]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg2:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </local:MessageNotificationActivity2>
+          <FlowStep.Next>
+            <FlowStep x:Name="__ReferenceID0">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                  <av:Point x:Key="ShapeLocation">220,430</av:Point>
+                  <av:Size x:Key="ShapeSize">200,22</av:Size>
+                  <av:PointCollection x:Key="ConnectorLocation">320,452 320,482 280,482 280,529</av:PointCollection>
+                </scg2:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <local:ManageSequenceButtons Button="[ManagerButtonsEnum.Finish]" sap:VirtualizedContainerService.HintSize="200,22">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg2:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </local:ManageSequenceButtons>
+              <FlowStep.Next>
+                <FlowStep x:Name="__ReferenceID3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                      <av:Point x:Key="ShapeLocation">180,529</av:Point>
+                      <av:Size x:Key="ShapeSize">200,22</av:Size>
+                    </scg2:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <local:AbortActivity sap:VirtualizedContainerService.HintSize="200,22">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg2:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </local:AbortActivity>
+                </FlowStep>
+              </FlowStep.Next>
+            </FlowStep>
+          </FlowStep.Next>
+        </FlowStep>
+        <FlowStep x:Key="Cancel" x:Name="__ReferenceID2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:Point x:Key="ShapeLocation">370,379</av:Point>
+              <av:Size x:Key="ShapeSize">200,22</av:Size>
+              <av:PointCollection x:Key="ConnectorLocation">470,401 470,441 420,441</av:PointCollection>
+            </scg2:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <local:MessageNotificationActivity2 sap:VirtualizedContainerService.HintSize="200,22" Key="you pick Cancel key" MessageType="[New MessageTypeError()]" Result="[State]">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg2:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </local:MessageNotificationActivity2>
+          <FlowStep.Next>
+            <x:Reference>__ReferenceID0</x:Reference>
+          </FlowStep.Next>
+        </FlowStep>
+      </FlowSwitch>
+      <x:Reference>__ReferenceID1</x:Reference>
+      <x:Reference>__ReferenceID2</x:Reference>
+      <x:Reference>__ReferenceID3</x:Reference>
+      <FlowStep x:Name="__ReferenceID6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">150,24.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">350,50 430,50 430,114.02</av:PointCollection>
+          </scg2:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <Parallel sap:VirtualizedContainerService.HintSize="200,51">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg2:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <local:MessageNotificationActivity2 sap:VirtualizedContainerService.HintSize="200,40" Key="hello world" MessageType="[New MessageTypeInfo()]" Result="[State]" />
+          <local:ManageSequenceButtons Button="[ManagerButtonsEnum.Next]" sap:VirtualizedContainerService.HintSize="200,40" />
+        </Parallel>
+        <FlowStep.Next>
+          <FlowStep x:Name="__ReferenceID5">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                <av:Point x:Key="ShapeLocation">330,114.02</av:Point>
+                <av:Size x:Key="ShapeSize">200,51</av:Size>
+                <av:PointCollection x:Key="ConnectorLocation">430,165.02 430,195.02 290,195.02 290,216.5</av:PointCollection>
+              </scg2:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Parallel sap:VirtualizedContainerService.HintSize="200,51">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg2:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg2:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <local:MessageNotificationActivity2 sap:VirtualizedContainerService.HintSize="200,40" Key="start working ... you may Next | Cancel" MessageType="[New MessageTypeInfo()]" Result="[State]" />
+              <local:ManageSequenceButtons Button="[ManagerButtonsEnum.NextCancel]" sap:VirtualizedContainerService.HintSize="200,40" />
+            </Parallel>
+            <FlowStep.Next>
+              <x:Reference>__ReferenceID4</x:Reference>
+            </FlowStep.Next>
+          </FlowStep>
+        </FlowStep.Next>
+      </FlowStep>
+      <x:Reference>__ReferenceID5</x:Reference>
+      <x:Reference>__ReferenceID0</x:Reference>
+    </Flowchart>
+    <CancellationScope.CancellationHandler>
+      <local:NotifyCancelEnabledActivity sap:VirtualizedContainerService.HintSize="200,22" />
+    </CancellationScope.CancellationHandler>
+  </CancellationScope>
+</Activity>
