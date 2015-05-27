@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedAgent.Impl", "SharedResource\SharedAgent.Impl.csproj", "{5BBA2E6F-FC23-48BC-BECA-9AF0F8418FDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedResource.Test", "SharedResource.Test\SharedResource.Test.csproj", "{1F467EC6-0E4B-44D8-A976-5E62B776C7DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5BBA2E6F-FC23-48BC-BECA-9AF0F8418FDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BBA2E6F-FC23-48BC-BECA-9AF0F8418FDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BBA2E6F-FC23-48BC-BECA-9AF0F8418FDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BBA2E6F-FC23-48BC-BECA-9AF0F8418FDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F467EC6-0E4B-44D8-A976-5E62B776C7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F467EC6-0E4B-44D8-A976-5E62B776C7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F467EC6-0E4B-44D8-A976-5E62B776C7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F467EC6-0E4B-44D8-A976-5E62B776C7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
