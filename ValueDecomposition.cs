@@ -1,12 +1,37 @@
 using System.Collections.Generic;
 using System.Linq;
 
+/*
+     [TestClass]
+    public class UnitTest1
+    {
+        [TestMethod]
+        public void TestMethod1()
+        {
+            var d = new Splitter(new[] {0.5f, 1.0f, 1.5f, 2.0f, 2.5f});
+            var actual = d.Split(3);
+            var expected = new[] { 0.5f, 0f, 0f, 0f, 2.5f };
+            Assert.IsTrue(expected.SequenceEqual(actual));
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var d = new Splitter(new[] { 0.5f, 1.0f, 1.5f, 2.0f, 2.5f });
+            var actual = d.Split(9);
+            var expected = new[] { 0.5f, 1.0f, 1.5f, 2.0f, 2.5f };
+            Assert.IsTrue(expected.SequenceEqual(actual));
+        }
+    }
+ */
 namespace FloatDecomposition
 {
     /// <summary>
-    /// разложение числа на сумму из цисел в заданном наборе
-    /// </summary>
-    public class ValueDecomposition 
+    /// разложение цисла на слагаемые использую заданный массив 
+    /// допустимых чисел, каждое число их набора 
+    /// может использоваться один раз
+    /// </summary>    
+    public class Splitter 
     {
         private struct Bucket
         {
@@ -32,7 +57,7 @@ namespace FloatDecomposition
 
         private readonly Bucket[] _bucket;
 
-        public ValueDecomposition(IEnumerable<float> array)
+        public Splitter(IEnumerable<float> array)
         {
             _bucket = array.Select(r => new Bucket(r)).ToArray();
         }
@@ -43,7 +68,7 @@ namespace FloatDecomposition
                 _bucket[i].Reset();
         }
 
-        private void DoDecomposition(float value)
+        private void DoSplit(float value)
         {
             for (var i = _bucket.Length - 1; i >= 0; i--)
             {
@@ -55,15 +80,15 @@ namespace FloatDecomposition
                 _bucket[i].Set();
                 if (value <= 0)
                     break;
-                DoDecomposition(value);
+                DoSplit(value);
                 break;
             }
         }
 
-        public IEnumerable<float> Decomposition(float value)
+        public IEnumerable<float> Split(float value)
         {
             Reset();
-            DoDecomposition(value);
+            DoSplit(value);
             foreach (var t in _bucket)
                 if (!t.IsUsed)
                     yield return 0;
