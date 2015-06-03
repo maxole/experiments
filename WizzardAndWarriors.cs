@@ -25,6 +25,18 @@ namespace WizzardAndWarriors.Test
             player.Accept(calc);
             Assert.AreEqual(0.4f, calc.Weight);
         }
+
+        [TestMethod]
+        public void RidedHorse()
+        {
+            var player = new Warrior();
+            player.GiveHim(new Axe());
+            
+            var horse = new HorseWithRider(new Horse(), player);
+
+            Assert.AreEqual(25.0f, horse.Power);
+            Assert.AreEqual(-15.0f, horse.Speed);
+        }
     }
 
     public interface IWeapon
@@ -35,6 +47,7 @@ namespace WizzardAndWarriors.Test
     public interface IPlayer
     {
         void GiveHim<T>(T item);
+        void Accept(IVisitor visitor);
     }
 
     public interface IBag
@@ -69,7 +82,7 @@ namespace WizzardAndWarriors.Test
         }
 
         public void GiveHim<T>(T item)
-        {            
+        {
             _bag.Put(item);
         }
 
@@ -79,8 +92,12 @@ namespace WizzardAndWarriors.Test
         }
     }
 
-    public class Axe : IWeapon {
-        public float Weight { get { return 0.4f; } }
+    public class Axe : IWeapon
+    {
+        public float Weight
+        {
+            get { return 0.4f; }
+        }
     }
 
     public interface IVisitor
@@ -94,7 +111,62 @@ namespace WizzardAndWarriors.Test
 
         public void Visit(IBag bag)
         {
-            Weight = bag.GetAll<IWeapon>().Sum(w=>w.Weight);
+            Weight = bag.GetAll<IWeapon>().Sum(w => w.Weight);
+        }
+    }
+
+    public interface IHorse
+    {
+        float Power { get; }
+        float Speed { get; }
+    }
+
+    public class Horse : IHorse
+    {
+        public float Power { get; private set; }
+        public float Speed { get; private set; }
+
+        public Horse()
+        {
+            Power = 10;
+            Speed = 10;
+        }
+    }
+
+    public class HorseWithRider : IHorse
+    {
+        private readonly IHorse _horse;
+        private readonly IPlayer _player;
+        private readonly float playerWeight = 0.0f;
+
+        public HorseWithRider(IHorse horse, IPlayer player)
+        {
+            _horse = horse;
+            _player = player;
+
+            var calc = new CalcWeigth();
+            _player.Accept(calc);
+            playerWeight = calc.Weight;
+        }
+
+        public IPlayer Player
+        {
+            get { return _player; }
+        }
+
+        public float Power
+        {
+            get
+            {
+                if (playerWeight < 0.001f)
+                    return _horse.Power;
+                return _horse.Power / playerWeight;
+            }
+        }
+
+        public float Speed
+        {
+            get { return _horse.Speed - Power; }
         }
     }
 }
