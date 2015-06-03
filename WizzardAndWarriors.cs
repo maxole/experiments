@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestProject5_1
+namespace WizzardAndWarriors.Test
 {
     [TestClass]
     public class WizzardAndWarriors
