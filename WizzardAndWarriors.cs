@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+/*
+ http://ericlippert.com/2015/04/27/wizards-and-warriors-part-one/
+ */
 namespace WizzardAndWarriors.Test
 {//*/
     [TestClass]
@@ -43,8 +45,8 @@ namespace WizzardAndWarriors.Test
         public void HorseWithBaggage()
         {            
             var horse = new HorseWithBaggage(new Horse());
-            horse.GiveHer(new Axe());
-            horse.GiveHer(new Axe());
+            horse.CarryOn(new Axe());
+            horse.CarryOn(new Axe());
 
             Assert.AreEqual(Math.Round(9.88f, 2), Math.Round(horse.Power, 2));
             Assert.AreEqual(Math.Round(9.88f, 2), Math.Round(horse.Speed, 2));
@@ -229,7 +231,7 @@ namespace WizzardAndWarriors.Test
             Speed = _horse.Speed;
         }        
 
-        public void GiveHer<T>(T item)
+        public void CarryOn<T>(T item)
         {
             _bag.Put(item);
 
