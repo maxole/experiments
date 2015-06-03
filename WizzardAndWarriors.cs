@@ -32,10 +32,22 @@ namespace WizzardAndWarriors.Test
             var player = new Warrior();
             player.GiveHim(new Axe());
             
-            var horse = new HorseWithRider(new Horse(), player);
+            var horse = new HorseWithRider(new Horse());
+            horse.ToRide(player);
 
-            Assert.AreEqual(25.0f, horse.Power);
-            Assert.AreEqual(-15.0f, horse.Speed);
+            Assert.AreEqual(Math.Round(9.96f, 2), Math.Round(horse.Power, 2));
+            Assert.AreEqual(Math.Round(9.96f, 2), Math.Round(horse.Speed, 2));
+        }
+
+        [TestMethod]
+        public void HorseWithBaggage()
+        {            
+            var horse = new HorseWithBaggage(new Horse());
+            horse.GiveHer(new Axe());
+            horse.GiveHer(new Axe());
+
+            Assert.AreEqual(Math.Round(9.88f, 2), Math.Round(horse.Power, 2));
+            Assert.AreEqual(Math.Round(9.88f, 2), Math.Round(horse.Speed, 2));
         }
     }
 
@@ -56,7 +68,7 @@ namespace WizzardAndWarriors.Test
         IEnumerable<T> GetAll<T>();
     }
 
-    public class WarrionBag : IBag
+    public class CommonBag : IBag
     {
         private readonly HashSet<object> _hashSet = new HashSet<object>();
 
@@ -78,7 +90,7 @@ namespace WizzardAndWarriors.Test
 
         public Warrior()
         {
-            _bag = new WarrionBag();
+            _bag = new CommonBag();
         }
 
         public void GiveHim<T>(T item)
@@ -133,20 +145,39 @@ namespace WizzardAndWarriors.Test
         }
     }
 
+    public class HorsePhysicsCalculator
+    {
+        private float _weight;
+
+        public HorsePhysicsCalculator(float power, float speed, float weight)
+        {
+            Power = power;
+            Speed = speed;
+            _weight = weight;
+        }
+
+        public void Calculate()
+        {
+            if (!(_weight > 0.001f)) return;
+            Power = Power - _weight / Power;
+            Speed = Speed - _weight / Power;
+        }
+
+        public float Speed { get; private set; }
+        public float Power { get; private set; }
+    }
+
     public class HorseWithRider : IHorse
     {
         private readonly IHorse _horse;
-        private readonly IPlayer _player;
-        private readonly float playerWeight = 0.0f;
 
-        public HorseWithRider(IHorse horse, IPlayer player)
+        private IPlayer _player;
+
+        public HorseWithRider(IHorse horse)
         {
             _horse = horse;
-            _player = player;
-
-            var calc = new CalcWeigth();
-            _player.Accept(calc);
-            playerWeight = calc.Weight;
+            Power = _horse.Power;
+            Speed = _horse.Speed;
         }
 
         public IPlayer Player
@@ -154,19 +185,61 @@ namespace WizzardAndWarriors.Test
             get { return _player; }
         }
 
-        public float Power
+        public IHorse Horse
         {
-            get
-            {
-                if (playerWeight < 0.001f)
-                    return _horse.Power;
-                return _horse.Power / playerWeight;
-            }
+            get { return _horse; }
         }
 
-        public float Speed
+        public void ToRide(IPlayer player)
         {
-            get { return _horse.Speed - Power; }
+            _player = player;
+
+            var calc = new CalcWeigth();
+            _player.Accept(calc);
+
+            var calculator = new HorsePhysicsCalculator(Power, Speed, calc.Weight);
+            calculator.Calculate();
+            Power = calculator.Power;
+            Speed = calculator.Speed;
+        }
+
+        public float Power { get; private set; }
+        public float Speed { get; private set; }
+    }
+
+    public class HorseWithBaggage : IHorse
+    {
+        private readonly IHorse _horse;
+        private readonly IBag _bag;
+
+        public float Power { get; private set; }
+        public float Speed { get; private set; }
+
+        public IHorse Horse
+        {
+            get { return _horse; }
+        }
+
+        public HorseWithBaggage(IHorse horse)
+        {
+            _horse = horse;
+            _bag = new CommonBag();
+
+            Power = _horse.Power;
+            Speed = _horse.Speed;
+        }        
+
+        public void GiveHer<T>(T item)
+        {
+            _bag.Put(item);
+
+            var calc = new CalcWeigth();
+            calc.Visit(_bag);
+
+            var calculator = new HorsePhysicsCalculator(Power, Speed, calc.Weight);
+            calculator.Calculate();
+            Power = calculator.Power;
+            Speed = calculator.Speed;
         }
     }
 }
