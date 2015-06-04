@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 /*
@@ -13,40 +14,48 @@ namespace WizzardAndWarriors.Test
         [TestMethod]
         public void TestMethod1()
         {
-            var player = new Warrior();
+            IPlayer player = new Warrior(new CommonBag());
             player.GiveHim(new Axe());
         }
 
         [TestMethod]
         public void CalcWeigthTest()
         {
-            var player = new Warrior();
+            IPlayer player = new Warrior(new CommonBag());
             player.GiveHim(new Axe());
 
-            var calc = new CalcWeigth();
-            player.Accept(calc);
-            Assert.AreEqual(0.4f, calc.Weight);
+            var weigth = player.Accept(new CalcWeigth());
+
+            Assert.AreEqual(0.4f, weigth);
         }
 
         [TestMethod]
         public void RidedHorse()
         {
-            var player = new Warrior();
-            player.GiveHim(new Axe());
-            
-            var horse = new HorseWithRider(new Horse());
-            horse.ToRide(player);
+            var warrior = new Warrior(new CommonBag());
 
-            Assert.AreEqual(Math.Round(9.96f, 2), Math.Round(horse.Power, 2));
-            Assert.AreEqual(Math.Round(9.96f, 2), Math.Round(horse.Speed, 2));
+            var horse = new Horse(
+                new HorsePowerCalculator(), 
+                new CommonBag(), 
+                new CalcWeigth());
+            horse
+                .ToRide(warrior);
+
+            Assert.AreEqual(Math.Round(10.0f, 2), Math.Round(horse.Power, 2));
+            Assert.AreEqual(Math.Round(10.0f, 2), Math.Round(horse.Speed, 2));
         }
 
         [TestMethod]
         public void HorseWithBaggage()
-        {            
-            var horse = new HorseWithBaggage(new Horse());
-            horse.CarryOn(new Axe());
-            horse.CarryOn(new Axe());
+        {
+            var horse = new Horse(
+                new HorsePowerCalculator(), 
+                new CommonBag(), 
+                new CalcWeigth());
+
+            horse
+                .Load(new Axe())
+                .Load(new Axe());
 
             Assert.AreEqual(Math.Round(9.88f, 2), Math.Round(horse.Power, 2));
             Assert.AreEqual(Math.Round(9.88f, 2), Math.Round(horse.Speed, 2));
@@ -55,13 +64,22 @@ namespace WizzardAndWarriors.Test
 
     public interface IWeapon
     {
-        float Weight { get; }
+        T Accept<T>(IVisitor<T> visitor);        
     }
 
     public interface IPlayer
     {
-        void GiveHim<T>(T item);
-        void Accept(IVisitor visitor);
+        T Accept<T>(IVisitor<T> visitor);
+
+        void GiveHim<T>(T item);        
+    }
+
+    public interface IHorse
+    {
+        T Accept<T>(IVisitor<T> visitor);
+
+        IHorse ToRide(IPlayer player);
+        IHorse Load<T>(T item);
     }
 
     public interface IBag
@@ -90,9 +108,9 @@ namespace WizzardAndWarriors.Test
     {
         private readonly IBag _bag;
 
-        public Warrior()
+        public Warrior(IBag bag)
         {
-            _bag = new CommonBag();
+            _bag = bag;
         }
 
         public void GiveHim<T>(T item)
@@ -100,148 +118,130 @@ namespace WizzardAndWarriors.Test
             _bag.Put(item);
         }
 
-        public void Accept(IVisitor visitor)
+        // todo !
+        public ReadOnlyCollection<IWeapon> Baggage()
         {
-            visitor.Visit(_bag);
+            return _bag.GetAll<IWeapon>().ToList().AsReadOnly();
+        }
+
+        public T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
         }
     }
 
     public class Axe : IWeapon
     {
+        public T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
         public float Weight
         {
             get { return 0.4f; }
         }
     }
 
-    public interface IVisitor
+    public interface IVisitor<out T>
     {
-        void Visit(IBag bag);
+        T Visit(Warrior warrior);
+        T Visit(Horse horse);
+        T Visit(Axe axe);
     }
 
-    public class CalcWeigth : IVisitor
+    public class CalcWeigth : IVisitor<float>
     {
-        public float Weight { get; private set; }
-
-        public void Visit(IBag bag)
-        {
-            Weight = bag.GetAll<IWeapon>().Sum(w => w.Weight);
+        public float Visit(Warrior warrior)
+        {            
+            return warrior.Baggage().Sum(s => s.Accept(this));
         }
-    }
 
-    public interface IHorse
-    {
-        float Power { get; }
-        float Speed { get; }
+        public float Visit(Horse horse)
+        {
+            var riderWeigth = horse.Rider == null ? 0.0f : horse.Rider.Accept(this);
+            var horseWeigth = horse.Baggage().Sum(s => s.Accept(this));
+            return riderWeigth + horseWeigth;
+        }
+
+        public float Visit(Axe axe)
+        {
+            return axe.Weight;
+        }
     }
 
     public class Horse : IHorse
     {
+        private readonly IHorsePowerCalculator _calculator;
+        private readonly IBag _bag;
+        private readonly IVisitor<float> _weigthVisitor;
+
+        public IPlayer Rider { get; private set; }
         public float Power { get; private set; }
         public float Speed { get; private set; }
 
-        public Horse()
+        public Horse(IHorsePowerCalculator calculator, IBag bag, IVisitor<float> weigthVisitor)
         {
+            _calculator = calculator;
+            _bag = bag;
+            _weigthVisitor = weigthVisitor;
             Power = 10;
             Speed = 10;
         }
+
+        public T Accept<T>(IVisitor<T> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
+        public IHorse ToRide(IPlayer player)
+        {
+            Rider = player;
+            CalcHorsePower();
+            return this;
+        }
+
+        public IHorse Load<T>(T item)
+        {
+            _bag.Put(item);
+            CalcHorsePower();
+            return this;
+        }
+
+        // todo !
+        public ReadOnlyCollection<IWeapon> Baggage()
+        {            
+            return _bag.GetAll<IWeapon>().ToList().AsReadOnly();
+        }
+
+        private void CalcHorsePower()
+        {
+            _calculator.Calculate(Power, Speed, Accept(_weigthVisitor));
+            Power = _calculator.Power;
+            Speed = _calculator.Speed;
+        }
     }
 
-    public class HorsePhysicsCalculator
+    public interface IHorsePowerCalculator
     {
-        private float _weight;
+        void Calculate(float power, float speed, float weight);
+        float Speed { get; }
+        float Power { get; }
+    }
 
-        public HorsePhysicsCalculator(float power, float speed, float weight)
+    public class HorsePowerCalculator : IHorsePowerCalculator
+    {
+        public void Calculate(float power, float speed, float weight)
         {
             Power = power;
             Speed = speed;
-            _weight = weight;
-        }
-
-        public void Calculate()
-        {
-            if (!(_weight > 0.001f)) return;
-            Power = Power - _weight / Power;
-            Speed = Speed - _weight / Power;
+            if (!(weight > 0.001f)) 
+                return;
+            Power = power - weight / power;
+            Speed = speed - weight / power;
         }
 
         public float Speed { get; private set; }
         public float Power { get; private set; }
-    }
-
-    public class HorseWithRider : IHorse
-    {
-        private readonly IHorse _horse;
-
-        private IPlayer _player;
-
-        public HorseWithRider(IHorse horse)
-        {
-            _horse = horse;
-            Power = _horse.Power;
-            Speed = _horse.Speed;
-        }
-
-        public IPlayer Player
-        {
-            get { return _player; }
-        }
-
-        public IHorse Horse
-        {
-            get { return _horse; }
-        }
-
-        public void ToRide(IPlayer player)
-        {
-            _player = player;
-
-            var calc = new CalcWeigth();
-            _player.Accept(calc);
-
-            var calculator = new HorsePhysicsCalculator(Power, Speed, calc.Weight);
-            calculator.Calculate();
-            Power = calculator.Power;
-            Speed = calculator.Speed;
-        }
-
-        public float Power { get; private set; }
-        public float Speed { get; private set; }
-    }
-
-    public class HorseWithBaggage : IHorse
-    {
-        private readonly IHorse _horse;
-        private readonly IBag _bag;
-
-        public float Power { get; private set; }
-        public float Speed { get; private set; }
-
-        public IHorse Horse
-        {
-            get { return _horse; }
-        }
-
-        public HorseWithBaggage(IHorse horse)
-        {
-            _horse = horse;
-            _bag = new CommonBag();
-
-            Power = _horse.Power;
-            Speed = _horse.Speed;
-        }        
-
-        public void CarryOn<T>(T item)
-        {
-            _bag.Put(item);
-
-            var calc = new CalcWeigth();
-            calc.Visit(_bag);
-
-            var calculator = new HorsePhysicsCalculator(Power, Speed, calc.Weight);
-            calculator.Calculate();
-            Power = calculator.Power;
-            Speed = calculator.Speed;
-        }
-    }
+    }    
 }
