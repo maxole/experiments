@@ -233,10 +233,6 @@ namespace WizzardAndWarriors.Test
     {
         public void Calculate(float power, float speed, float weight)
         {
-            Power = power;
-            Speed = speed;
-            if (!(weight > 0.001f)) 
-                return;
             Power = power - weight / power;
             Speed = speed - weight / power;
         }
