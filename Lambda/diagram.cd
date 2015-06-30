@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Lambda.GenH30.LambdaProtocol" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAIKAAAACAAAAAAIAAAAAACIIAAAAAAAABAAAAEgAAA=</HashCode>
+      <FileName>LambdaProtocol.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lambda.GenH30.TransportConfig" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>S4ICACAAAAAAEAAAQAAAQAAAABQCAAAAABABAIEmAAA=</HashCode>
+      <FileName>TransportConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.LambdaUnit" Collapsed="true">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAoMCBACBAkQAAAQACAACDABAAAAA=</HashCode>
+      <FileName>LambdaUnit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lambda.GenH30.LambdaWorker" Collapsed="true">
+    <Position X="4.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACABAgAAAAIgIQQAAgCIAAAAAAQAAJA=</HashCode>
+      <FileName>LambdaWorker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lambda.GenH30.State" Collapsed="true">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAAAAAAAAAgAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.StatePowerOn" Collapsed="true">
+    <Position X="4.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAQAAAAAAAgAAAAAACAAAAAAAAAAAI=</HashCode>
+      <FileName>StatePowerOn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.StateRead" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAQAgAAAAAgIAAAAACAAAABAEAEAAI=</HashCode>
+      <FileName>StateRead.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.StateReadInit" Collapsed="true">
+    <Position X="6.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAQAgAAAAAgAAAAAACAAAAAAAAAAAI=</HashCode>
+      <FileName>StateReadInit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.Config" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAEAAAgACAACAAAAAAAAACAAABBEACAAA=</HashCode>
+      <FileName>Config.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.LambdaUnitExt" Collapsed="true">
+    <Position X="3.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAIAAYAAAAAQAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LambdaUnitExt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.BoundaryWriterExt" Collapsed="true">
+    <Position X="10.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ITransportBoundary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.SerialPortTransportBoundary" Collapsed="true">
+    <Position X="12.5" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAEAAAA=</HashCode>
+      <FileName>SerialPortTransportBoundary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lambda.GenH30.SerialPortBoundaryWriter" Collapsed="true">
+    <Position X="10.25" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACQAAAgAAIAAAAAAAAAIAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>SerialPortTransportBoundary.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lambda.GenH30.StateFailure" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAAAgAAAAAgIAAAAACAAAAAAAAAAAI=</HashCode>
+      <FileName>StateFailure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lambda.GenH30.WriteResponse" Collapsed="true">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAQAAAAAAAAAAAAAAAAABAAAAAAAgAAA=</HashCode>
+      <FileName>WriteResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Lambda.GenH30.ILambdaWorker" Collapsed="true">
+    <Position X="4.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAAAAAAAAIgAQAAAACIAAAAAAAAAIA=</HashCode>
+      <FileName>LambdaWorker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Lambda.GenH30.ITransportBoundary" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ITransportBoundary.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Lambda.GenH30.IBoundaryWriter" Collapsed="true">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ITransportBoundary.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
