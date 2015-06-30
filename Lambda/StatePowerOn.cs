@@ -1,5 +1,4 @@
 using System;
-using Core.Attributes;
 
 namespace Lambda.GenH30
 {
@@ -15,8 +14,7 @@ namespace Lambda.GenH30
     ///     - ожидание таймаута не более 1000 мс;
     ///     - в случае ответа: «LAMBDA,GENH30-25» зафиксировать успешное определение ИП по адресу 06 в порядке, предусмотренном для прочих устройств Шкафа системного и перей-ти на п. 3.2.3.
     ///     - в случае иного ответа вывести диагностическое сообщение: «Источник питания LAMBDA,GENH30-25 по адресу 06 не обнаружен. Ответ: …... /вывести принятый ответ/».
-    /// </summary>
-    [TypeRegistration(typeof (StatePowerOn))]
+    /// </summary>    
     public class StatePowerOn : State
     {
         private readonly ILambdaProtocol _protocol;

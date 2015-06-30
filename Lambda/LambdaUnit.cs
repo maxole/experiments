@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel;
-using Core.Attributes;
-using Core.Configuration;
 
 namespace Lambda.GenH30
 {  
     /// <summary>
     /// 
-    /// </summary>    
-    [TypeRegistration(typeof(LambdaUnit))]
+    /// </summary>        
     public sealed class LambdaUnit : INotifyPropertyChanged
     {
         /// <summary>

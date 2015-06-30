@@ -2,12 +2,9 @@ using System.Globalization;
 using System.IO.Ports;
 using System.Text;
 using System.Threading;
-using Core.Attributes;
-using Core.Configuration;
 
 namespace Lambda.GenH30
-{
-    [TypeRegistration(typeof(ITransportBoundary))]
+{    
     public class SerialPortTransportBoundary : ITransportBoundary
     {
         private readonly TransportConfig _configuration;

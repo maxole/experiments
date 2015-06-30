@@ -59,7 +59,7 @@ namespace Lambda.GenH30
         private static ConfigurationPropertyCollection _properties;
 
         private static readonly ConfigurationProperty _address = new ConfigurationProperty("address", typeof(byte), (byte)6, ConfigurationPropertyOptions.IsRequired);
-        private static readonly ConfigurationProperty _idn = new ConfigurationProperty("idn", typeof(string), LambdaName.Name, ConfigurationPropertyOptions.IsRequired);
+        private static readonly ConfigurationProperty _idn = new ConfigurationProperty("idn", typeof(string), "", ConfigurationPropertyOptions.IsRequired);
         private static readonly ConfigurationProperty _voltage = new ConfigurationProperty("voltage", typeof(float), 27.0f, ConfigurationPropertyOptions.IsRequired);
         private static readonly ConfigurationProperty _current = new ConfigurationProperty("current", typeof(float), 6.0f, ConfigurationPropertyOptions.IsRequired);
 

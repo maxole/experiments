@@ -4,8 +4,6 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Core.Attributes;
-using Lambda.GenH30.Properties;
 
 [assembly: AssemblyTitle("")]
 [assembly: AssemblyDescription("")]
@@ -36,15 +34,3 @@ using Lambda.GenH30.Properties;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-[assembly: Plugin]
-[assembly: LoggerRegistration(LambdaName.LoggerName, "Лямбда")]
-
-namespace Lambda.GenH30.Properties
-{
-    public static class LambdaName
-    {
-        public const string Name = "LAMBDA,GENH30-25";
-        public const string LoggerName = "Lambda";
-    }
-}

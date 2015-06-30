@@ -1,19 +1,16 @@
-using Core.Attributes;
-using Core.Trace;
 using Lambda.GenH30.Properties;
 
 namespace Lambda.GenH30
 {
     /// <summary>
     /// состояние отказ оборудования
-    /// </summary>
-    [TypeRegistration(typeof(StateFailure))]
+    /// </summary>    
     public class StateFailure : State
     {
         private readonly ILogger _logger;
         private readonly LambdaUnit _unit;
 
-        public StateFailure([InstanceName(LambdaName.LoggerName)]ILogger logger, LambdaUnit unit)
+        public StateFailure(ILogger logger, LambdaUnit unit)
         {
             _logger = logger;
             _unit = unit;

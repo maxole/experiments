@@ -1,6 +1,4 @@
 using System;
-using Core.Attributes;
-using Core.Trace;
 using Lambda.GenH30.Properties;
 
 namespace Lambda.GenH30
@@ -37,8 +35,7 @@ namespace Lambda.GenH30
 
     /// <summary>
     /// 
-    /// </summary>
-    [TypeRegistration(typeof (ILambdaWorker))]
+    /// </summary>    
     public class LambdaWorker : ILambdaWorker
     {
         private readonly ILogger _logger;
@@ -76,7 +73,7 @@ namespace Lambda.GenH30
         /// <param name="read"></param>
         /// <param name="readInit"></param>
         /// <param name="stateFailure"></param>
-        public LambdaWorker([InstanceName(LambdaName.LoggerName)] ILogger logger,
+        public LambdaWorker(ILogger logger,
                             StatePowerOn powerOn,
                             StateRead read,
                             StateReadInit readInit,

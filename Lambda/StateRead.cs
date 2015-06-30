@@ -1,6 +1,4 @@
 using System;
-using Core.Attributes;
-using Core.Trace;
 using Lambda.GenH30.Properties;
 
 namespace Lambda.GenH30
@@ -17,8 +15,7 @@ namespace Lambda.GenH30
     ///      - подать команду «OUT 0»;
     ///    - вывести диагностическое сообщение «Отключение питания 27В из-за превы-шения: U = .../принятое значение/, I = …/измеренный ток/»;
     /// - перейти к п. 3.2.5.
-    /// </summary>
-    [TypeRegistration(typeof (StateRead))]
+    /// </summary>    
     public class StateRead : State
     {
         private readonly ILogger _logger;
@@ -29,7 +26,7 @@ namespace Lambda.GenH30
         public static readonly string Info = Resources.InfoVoltagEexceeded;
         public static readonly string Fatal = Resources.FatalVoltagEexceeded;
 
-        public StateRead([InstanceName(LambdaName.LoggerName)]ILogger logger, ILambdaProtocol protocol, LambdaUnit unit)
+        public StateRead(ILogger logger, ILambdaProtocol protocol, LambdaUnit unit)
         {
             _logger = logger;
             _protocol = protocol;

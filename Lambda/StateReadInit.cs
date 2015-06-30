@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using Core.Attributes;
 
 namespace Lambda.GenH30
 {
@@ -11,8 +10,7 @@ namespace Lambda.GenH30
     /// - Проверить принятые данные: 
     /// - Если установленное напряжение равно 27,000В и установленный ток равен 6,0А, то подать команду «OUT 1» и перейти на п.3.2.4.
     /// - если параметры не равны приведенным, передать команды: «PV 27» и «PC 6» и ожидать ответа «OK»? после чего перейти к п. 3.2.4.
-    /// </summary>
-    [TypeRegistration(typeof (StateReadInit))]
+    /// </summary>    
     public class StateReadInit : State
     {
         private readonly ILambdaProtocol _protocol;

@@ -1,12 +1,8 @@
 using System;
-using Core.Attributes;
-using Core.Configuration;
-using Core.Trace;
 using Lambda.GenH30.Properties;
 
 namespace Lambda.GenH30
-{    
-    [TypeRegistration(typeof (ILambdaProtocol))]
+{        
     public class LambdaProtocol : ILambdaProtocol
     {
         private readonly ILogger _logger;
@@ -15,7 +11,7 @@ namespace Lambda.GenH30
 
         private const string ResponseOk = "OK";
 
-        public LambdaProtocol([InstanceName(LambdaName.LoggerName)]ILogger logger, IConfigurationManager configuration, ITransportBoundary boundary)
+        public LambdaProtocol(ILogger logger, IConfigurationManager configuration, ITransportBoundary boundary)
         {
             _logger = logger;
             _boundary = boundary;
