@@ -1,0 +1,19 @@
+        ..vars
+		private readonly IScanner _scanner;
+        private readonly IValidator _validator;
+		
+		..init
+		_scanner.Scan(new Source(), v => v.Validate(_validator.Verify));
+		
+		..source
+		private class Source : ISource
+        {
+            public string Take()
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                const string resourceName = "NS.resources.models.xml";
+                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                using (var reader = new StreamReader(stream))
+                    return reader.ReadToEnd();
+            }
+        }
