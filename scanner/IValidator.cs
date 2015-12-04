@@ -1,48 +1,41 @@
-п»їusing System;
+using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using Core.Attributes;
 
-namespace NS.Loader
+namespace Core.Scanner
 {
-    /// <summary>
-    /// РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ РІР°Р»РёРґР°С†РёСЋ РїР°СЂР°РјРµС‚СЂРѕРІ Р·Р°РґР°С‡Рё 5
-    /// </summary>
     public interface IValidator
     {
-        /// <param name="data">РґР°РЅРЅС‹Рµ</param>
-        bool Verify(string data);
+        /// <param name="data">данные</param>
+        /// <param name="schema">файл схема валидирования</param>
+        bool Verify(string data, string schema);
         /// <summary>
-        /// РѕС€РёР±РєРё РІР°Р»РёРґРёСЂРѕРІР°РЅРёСЏ
+        /// ошибки валидирования
         /// </summary>
         StringBuilder Errors { get; }
     }
+
     /// <summary>
-    /// Р·Р°РґР°С‡Р° РІР°Р»РёРґР°С‚РѕСЂР° РїСЂРѕРІРµСЂРёС‚СЊ РЅР°Р»РёС‡РёРµ РїР°СЂР°РјРµС‚СЂРѕРІ, РїСЂРѕРІРµСЂРёС‚СЊ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ РїР°СЂР°РјРµС‚СЂРѕРІ
-    /// </summary>    
+    /// задача валидатора проверить наличие параметров, проверить правильность параметров
+    /// </summary>
     public class Validator : IValidator
     {
-        private string _schema;
-
         public Validator()
         {
-            _schema = string.Empty;
-            Errors = new StringBuilder();  
+            Errors = new StringBuilder();
         }
 
-        public bool Verify(string data)
+        public bool Verify(string data, string schema)
         {
             var verify = true;
             if (!string.IsNullOrEmpty(data))
-            {                
-                if (string.IsNullOrEmpty(_schema))
-                    _schema = GetValidateSchema();
-
+            {
                 var schemas = new XmlSchemaSet();
-                schemas.Add("", XmlReader.Create(new StringReader(_schema)));
+                schemas.Add("", XmlReader.Create(new StringReader(schema)));
 
                 try
                 {
@@ -55,24 +48,15 @@ namespace NS.Loader
                 }
                 catch (Exception exception)
                 {
-                    Errors.AppendLine("РћС€РёР±РєР° РІ РґР°РЅРЅС‹С…. " + exception.Message);
+                    Errors.AppendLine("Ошибка в данных. " + exception.Message);
                     verify = false;
                 }
             }
             else
-                throw new Exception("РќРµ Р·Р°РґР°РЅС‹ РґР°РЅРЅС‹Рµ РґР»СЏ РїСЂРѕРІРµСЂРєРё");
+                throw new Exception("Не заданы данные для проверки");
             return verify;
         }
 
         public StringBuilder Errors { get; private set; }
-
-        private string GetValidateSchema()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            const string resourceName = "NS.resources.model.xsd";
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
-                return reader.ReadToEnd();
-        }
     }
 }

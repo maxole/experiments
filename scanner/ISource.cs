@@ -1,10 +1,8 @@
-﻿namespace NS.Loader
+namespace Core.Scanner
 {
-    /// <summary>
-    /// источник данных для сканирования
-    /// </summary>
     public interface ISource
     {
         string Take();
+        string Schema();
     }
 }

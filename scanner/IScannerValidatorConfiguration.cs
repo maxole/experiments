@@ -1,20 +1,17 @@
-﻿using System;
+using System;
 
-namespace NS.Loader
+namespace Core.Scanner
 {
-    /// <summary>
-    /// конфигуратор валидатора параметров
-    /// </summary>
     public interface IScannerValidatorConfiguration
     {
-        IScannerValidatorConfiguration Validate(Predicate<string> verify);
+        IScannerValidatorConfiguration Validate(Func<string, string, bool> verify);
     }
 
     public class ScannerValidatorConfiguration : IScannerValidatorConfiguration
     {
-        public Predicate<string> Verify { get; private set; }
+        public Func<string, string, bool> Verify { get; private set; }
 
-        public IScannerValidatorConfiguration Validate(Predicate<string> verify)
+        public IScannerValidatorConfiguration Validate(Func<string, string, bool> verify)
         {
             Verify = verify;
             return this;

@@ -1,65 +1,60 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Core.Attributes;
 
-namespace NS.Loader
+namespace Core.Scanner
 {
-    /// <summary>
-    /// РѕС‚СЃРєР°РЅРёСЂРѕРІР°РЅРЅР°СЏ РєРѕР»Р»РµРєС†РёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
-    /// </summary>
-    public interface IScanned
+    public interface IScanner
     {
         /// <summary>
-        /// РїСЂРѕС‡РёС‚Р°РЅРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
+        /// выполняет сканирование параметров проверки из файла ресурсов с использованием переданного валидатора
         /// </summary>
-        List<ParameterModel> Collection { get; }
-    }
-    /// <summary>
-    /// РёРЅС‚С„РµР№СЃ СЃРєР°РЅРёСЂРѕРІР°РЅРёСЏ РїР°СЂР°РјРµС‚СЂРѕРІ
-    /// </summary>
-    public interface IScanner : IScanned
-    {
-        /// <summary>
-        /// РІС‹РїРѕР»РЅСЏРµС‚ СЃРєР°РЅРёСЂРѕРІР°РЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ РїСЂРѕРІРµСЂРєРё РёР· С„Р°Р№Р»Р° СЂРµСЃСѓСЂСЃРѕРІ СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РїРµСЂРµРґР°РЅРЅРѕРіРѕ РІР°Р»РёРґР°С‚РѕСЂР°
-        /// </summary>
-        void Scan(ISource source, Action<IScannerValidatorConfiguration> validator);
+        IList<T> Scan<T>(ISource source, Action<IScannerValidatorConfiguration> validator);
     }
 
     public class Scanner : IScanner
     {
-        private ScannerValidatorConfiguration _validatorConfiguration;
+        private readonly IXmlParameterOverriders _overriders;
+        private ScannerValidatorConfiguration _configuration;
 
-        public Scanner()
+        public Scanner(IXmlParameterOverriders overriders)
         {
-            Collection = new List<ParameterModel>();
+            _overriders = overriders;
         }
 
-        public void Scan(ISource source, Action<IScannerValidatorConfiguration> validator)
+        public IList<T> Scan<T>(ISource source, Action<IScannerValidatorConfiguration> validator)
         {
-            Collection.Clear();
-            validator(_validatorConfiguration = new ScannerValidatorConfiguration());
-            Load(source);
-        }
+            validator(_configuration = new ScannerValidatorConfiguration());
 
-        private void Load(ISource source)
-        {
+            var records = new List<T>();
+
             var root = source.Take();
             var document = XDocument.Parse(root);
 
-            var serializer = new XmlSerializer(typeof (ParameterModel));
-            foreach (var data in document.Root.Elements("parameter")
-                .Select(element => element.ToString())
-                .Where(value => _validatorConfiguration.Verify(value)))
-                using (var reader = new StringReader(data))
+            foreach (var data in document.Root.Elements().Select(element => new
+            {
+                type = element.Name.LocalName,
+                element = element.ToString()
+            }).Where(value => _configuration.Verify(value.element, source.Schema())))
+            {
+                using (var reader = new StringReader(data.element))
                 {
-                    var model = (ParameterModel) serializer.Deserialize(reader);
-                    Collection.Add(model);
-                }
-        }
+                    XmlSerializer serializer;
+                    _overriders.Overriders.TryGetValue(data.type, out serializer);
+                    if (serializer == null)
+                        throw new Exception("Неизвестный тип сериализатора для параметра " + data.type);
 
-        public List<ParameterModel> Collection { get; private set; }
+                    var model = (T)serializer.Deserialize(reader);
+
+                    records.Add(model);
+                }
+            }
+
+            return records;
+        }
     }
 }
