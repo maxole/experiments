@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GatewayInterface">
+      <HintPath>..\libs\GatewayInterface.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -58,6 +61,13 @@
     <Compile Include="check_settings.cs" />
     <Compile Include="clone.cs" />
     <Compile Include="process_payment.cs" />
+    <Compile Include="signer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\scr\EfawateerGateway.csproj">
+      <Project>{526984d3-9bd6-4381-a1ac-8d75abb8c3ca}</Project>
+      <Name>EfawateerGateway</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -1,7 +1,8 @@
 ﻿<gateway id="909" name="eFAWATEER" file="EfawateerGateway.dll" type="Gateways.EfawateerGateway">
   <template>
-    <crt_pass hint="сетевой пароль" /> 
-    <cert file="" hint="серверный сертификат, не обязателен, если уже установлен в системе" /> 
+    <url>http://mail.ru</url>
+    <crt_key hint="закрытый ключ">CN=XM</crt_key>
+    <crt_pass hint="пароль к ключу" /> 
     <detail_log hint="детальный лог">true</detail_log>
 
     <request_url hint="Url запроса">https://espp2.mts.ru/PaymentProcessingXMLEndpointServerProxy/XMLPaymentProcessingDispatcher</request_url>

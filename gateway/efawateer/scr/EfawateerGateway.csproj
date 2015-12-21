@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EfawateerGateway</RootNamespace>
     <AssemblyName>EfawateerGateway</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GatewayInterface">
+    <Reference Include="GatewayInterface, Version=1.0.0.9042, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\GatewayInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -41,10 +42,13 @@
   <ItemGroup>
     <Compile Include="EfawateerGateway.cs" />
     <Compile Include="IEfawateerProxy.cs" />
+    <Compile Include="IEfawateerSigner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="gateway_configuration.xml" />
+    <None Include="gateway_configuration.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

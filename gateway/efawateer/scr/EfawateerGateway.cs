@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Data;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Xml;
 
 namespace Gateways
 {
-    public class EfawateerGateway : BaseGateway, IGateway, IEfawateerProxy
+    public class EfawateerGateway : BaseGateway, IGateway
     {
         private bool _detailLogEnabled;
-        private string _crtPass;
-        private X509Certificate2 _cert;
+        private string _password;
+        private string _privateKey;
         private IEfawateerProxy _proxy;
+        private string _serviceUri;
 
         public EfawateerGateway()
         {            
@@ -20,9 +19,9 @@ namespace Gateways
         public EfawateerGateway(EfawateerGateway gateway)
         {
             _detailLogEnabled = gateway._detailLogEnabled;
-            _crtPass = gateway._crtPass;
-            _cert = new X509Certificate2(gateway._cert);
-            _proxy = this;
+            _password = gateway._password;
+            _privateKey = gateway._privateKey;
+            _serviceUri = gateway._serviceUri;
 
             // base copy
             Copy(this);
@@ -36,19 +35,16 @@ namespace Gateways
                 var xmlData = new XmlDocument();
                 xmlData.LoadXml(data);
 
-                if (xmlData.DocumentElement["crt_pass"] != null)
-                    _crtPass = xmlData.DocumentElement["crt_pass"].InnerText;
+                _serviceUri = xmlData.DocumentElement["url"].InnerText;
 
-                if (_crtPass != string.Empty)
-                {
-                    log("Loading Certificate with password");
-                    _cert = new X509Certificate2(Encoding.GetEncoding(1251).GetBytes(xmlData.DocumentElement["_cert"].InnerText.Trim()), _crtPass);
-                }
-                else
-                {
-                    log("Loading Certificate without password");
-                    _cert = new X509Certificate2(Encoding.GetEncoding(1251).GetBytes(xmlData.DocumentElement["_cert"].InnerText.Trim()));
-                }
+                if (xmlData.DocumentElement["crt_pass"] != null)
+                    _password = xmlData.DocumentElement["crt_pass"].InnerText;
+
+                if (xmlData.DocumentElement["crt_key"] != null)
+                    _privateKey = xmlData.DocumentElement["crt_key"].InnerText.Trim();
+
+                var singer = new EfawateerSigner(_privateKey, _password);
+                singer.CheckCerificate();
 
                 if (xmlData.DocumentElement["detail_log"] != null &&
                     (xmlData.DocumentElement["detail_log"].InnerText.ToLower() == "true" ||
@@ -85,7 +81,8 @@ namespace Gateways
                 var errorCode = (int)paymentRow["ErrorCode"];
                 var paymentParams = paymentRow["Params"] as string;
 
-
+                var signer = new EfawateerSigner(_privateKey, _password);
+                _proxy = new EfawateerProxy(_serviceUri, signer, m => { if (_detailLogEnabled) DetailLog(m); });
             }
             catch (Exception ex)
             {
@@ -102,8 +99,9 @@ namespace Gateways
                 if (operatorRow == null) throw new Exception("unable to extract paymentData");
 
                 var operatorFormatString = operatorRow["OsmpFormatString"] is DBNull ? "" : operatorRow["OsmpFormatString"] as string;
-                var formatedPaymentParams = FormatParameters(paymentData.Params, operatorFormatString);      
-          
+                var formatedPaymentParams = FormatParameters(paymentData.Params, operatorFormatString);
+
+                string sessionEx = GenerateSessionNumber12Digits();
 
             }
             catch (Exception ex)
@@ -124,13 +122,8 @@ namespace Gateways
             var message = string.Empty;
             try
             {
-                if (_cert != null)
-                {
-                    var store = new X509Store(StoreName.AuthRoot, StoreLocation.LocalMachine);
-                    store.Open(OpenFlags.OpenExistingOnly | OpenFlags.ReadWrite);
-                    store.Add(_cert);
-                    store.Close();
-                }
+                var signer = new EfawateerSigner(_privateKey, _password);
+                signer.CheckCerificate();
 
                 // todo добавить проверку параметров
             }

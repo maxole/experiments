@@ -1,14 +1,17 @@
 ﻿using System;
+using Gateways;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Gateways
+namespace EfawateerTests
 {
     [TestClass]
-    public class check_settings
+    public class signer
     {
         [TestMethod]
         public void TestMethod1()
         {
+            var s = new EfawateerSigner("CN=XM", "test");
+            s.CheckCerificate();
         }
     }
 }
