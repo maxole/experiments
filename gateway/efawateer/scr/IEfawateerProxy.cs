@@ -16,13 +16,11 @@ namespace Gateways
     {
         private readonly string _uri;
         private readonly Action<string> _detailLog;
-        private readonly IEfawateerSigner _signer;
 
-        public EfawateerProxy(string uri, IEfawateerSigner signer, Action<string> detailLog)
+        public EfawateerProxy(string uri, Action<string> detailLog)
         {
             _uri = uri;
             _detailLog = detailLog;
-            _signer = signer;
         }
 
         public string SendSoapRequest(string request, string soapAction, int timeout, out long timeExecuted)
@@ -81,8 +79,6 @@ namespace Gateways
                         if (_detailLog != null)
                             _detailLog(string.Format("rsp{0}:{1}", threadID, sb.ToString()));
 
-                        if (!_signer.VerifyData(sb.ToString()))
-                            throw new Exception("Response has bad signature");
                         return sb.ToString();
                     }
                 }

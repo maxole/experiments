@@ -81,8 +81,7 @@ namespace Gateways
                 var errorCode = (int)paymentRow["ErrorCode"];
                 var paymentParams = paymentRow["Params"] as string;
 
-                var signer = new EfawateerSigner(_privateKey, _password);
-                _proxy = new EfawateerProxy(_serviceUri, signer, m => { if (_detailLogEnabled) DetailLog(m); });
+
             }
             catch (Exception ex)
             {
@@ -138,6 +137,16 @@ namespace Gateways
         public IGateway Clone()
         {
             return new EfawateerGateway(this);
+        }
+
+        private string SendRequest(string request, string action)
+        {            
+            var signer = new EfawateerSigner(_privateKey, _password);
+            _proxy = new EfawateerProxy(_serviceUri, m => { if (_detailLogEnabled) DetailLog(m); });
+            var response = _proxy.SendSoapRequest(request, action, timeout);
+            if (!signer.VerifyData(response))
+                throw new Exception("Response has bad signature");
+            return response;
         }
     }
 }
