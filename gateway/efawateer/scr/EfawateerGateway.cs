@@ -65,7 +65,9 @@ namespace Gateways
         public void ProcessPayment(object paymentData, object operatorData, object exData)
         {
             var initialSession = string.Empty;
+#if !TEST
             log("Efawateer processing...");
+#endif
             try
             {
                 var paymentRow = paymentData as DataRow;
@@ -76,16 +78,20 @@ namespace Gateways
                 initialSession = (paymentRow["InitialSessionNumber"] as string);
                 var session = (paymentRow["SessionNumber"] is DBNull) ? "" : (paymentRow["SessionNumber"] as string);
 
-                var ap = (int)paymentRow["TerminalID"];
-                var status = (int)paymentRow["StatusID"];
-                var errorCode = (int)paymentRow["ErrorCode"];
+                var ap = (int) paymentRow["TerminalID"];
+                var status = (int) paymentRow["StatusID"];
+                var errorCode = (int) paymentRow["ErrorCode"];
                 var paymentParams = paymentRow["Params"] as string;
 
 
             }
             catch (Exception ex)
             {
+#if !TEST
                 log(string.Format("ProcessPayment (initial_session={0}) exception: {1}", initialSession, ex.Message));
+#else
+                throw;
+#endif
             }
         }
 
@@ -101,6 +107,7 @@ namespace Gateways
                 var formatedPaymentParams = FormatParameters(paymentData.Params, operatorFormatString);
 
                 string sessionEx = GenerateSessionNumber12Digits();
+
 
             }
             catch (Exception ex)
