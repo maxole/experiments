@@ -24,9 +24,11 @@ namespace LFGenerator2.Protocol
             _writer = boundary.Writer();
         }
 
-        public ReadableBoundary Write(int timeout = 500)
+        public ReadableBoundary Write(bool autoClose = true, int timeout = 500)
         {
             _readable = _writer.Write(_request.Parameters.ToArray(), timeout);
+            if (autoClose)
+                _readable.Dispose();
             return _readable;
         }
 

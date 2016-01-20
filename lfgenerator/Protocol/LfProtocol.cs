@@ -4,124 +4,81 @@ namespace LFGenerator2.Protocol
 {
     public class LfProtocol : ILfProtocol
     {
-        private readonly ITransportBoundary _boundary;
-
-        public LfProtocol(ITransportBoundary boundary)
+        public WriteRequest GetId()
         {
-            _boundary = boundary;
+            return new WriteRequest(Command.GetDeviceId);
         }
 
-        public byte GetId()
+        public WriteRequest GetSoftwareVersion()
         {
-            var request = new WriteRequest(Command.GetDeviceId);
-            var response = WriteAndRead(request);
-            return response[0];     
+            return new WriteRequest(Command.GetSoftwareVersion);   
         }
 
-        public byte[] GetSoftwareVersion()
+        public WriteRequest SetChannel2(ushort frequency, ushort rms)
         {
-            var request = new WriteRequest(Command.GetSoftwareVersion);
-            var response = WriteAndRead(request, 8);
-            return response;         
+            return new WriteRequest(Command.SetChannel2).With(frequency).With(rms);
         }
 
-        public byte SetChannel2(ushort frequency, ushort rms)
+        public WriteRequest SetConstantVoltage(ushort voltage)
         {
-            var request = new WriteRequest(Command.SetChannel2).With(frequency).With(rms);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetConstantVoltage).With(voltage);
         }
 
-        public byte SetConstantVoltage(ushort voltage)
+        public WriteRequest SetChannel2Noise(ushort amplitude)
         {
-            var request = new WriteRequest(Command.SetConstantVoltage).With(voltage);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetChannel2Noise).With(amplitude);
         }
 
-        public byte SetChannel2Noise(ushort amplitude)
+        public WriteRequest SetChannel2Summator(ushort frequency1, ushort amplitude1, ushort frequency2, ushort amplitude2)
         {
-            var request = new WriteRequest(Command.SetChannel2Noise).With(amplitude);
-            var response = WriteAndRead(request);
-            return response[0];
-        }
-        
-        public byte SetChannel2Summator(ushort frequency1, ushort amplitude1, ushort frequency2, ushort amplitude2)
-        {
-            var request = new WriteRequest(Command.SetChannel2Hybrid)
+            return new WriteRequest(Command.SetChannel2Hybrid)
                 .With(frequency1).With(amplitude1)
                 .With(frequency2).With(amplitude2);
-            var response = WriteAndRead(request);
-            return response[0];
         }
 
-        public byte SetChannel1(ushort frequency, ushort rms)
+        public WriteRequest SetChannel1(ushort frequency, ushort rms)
         {
-            var request = new WriteRequest(Command.SetChannel1).With(frequency).With(rms);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetChannel1).With(frequency).With(rms);
         }
 
-        public byte ResetAllChannels()
+        public WriteRequest ResetAllChannels()
         {
-            var request = new WriteRequest(Command.ResetAllChannels);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.ResetAllChannels);
         }
 
-        public byte SetChannel1K(float k)
+        public WriteRequest SetChannel1K(float k)
         {
-            var request = new WriteRequest(Command.SetChannel1K).With(k);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetChannel1K).With(k);
         }
 
-        public byte SetChannel1B(ushort b1)
+        public WriteRequest SetChannel1B(ushort b1)
         {
-            var request = new WriteRequest(Command.SetChannel1B).With(b1);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetChannel1B).With(b1);
         }
 
-        public byte SetChannel2K(float k)
+        public WriteRequest SetChannel2K(float k)
         {
-            var request = new WriteRequest(Command.SetChannel2K).With(k);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetChannel2K).With(k);
         }
 
-        public byte SetChannel2B(ushort b1)
+        public WriteRequest SetChannel2B(ushort b1)
         {
-            var request = new WriteRequest(Command.SetChannel2B).With(b1);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetChannel2B).With(b1);
         }
 
-        public byte SetConstantK(float k)
+        public WriteRequest SetConstantK(float k)
         {
-            var request = new WriteRequest(Command.SetConstantK).With(k);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetConstantK).With(k);
         }
 
-        public byte SetConstantB(ushort b)
+        public WriteRequest SetConstantB(ushort b)
         {
-            var request = new WriteRequest(Command.SetConstantB).With(b);
-            var response = WriteAndRead(request);
-            return response[0];
+            return new WriteRequest(Command.SetConstantB).With(b);
         }
 
-        public byte[] GetCalibration()
+        public WriteRequest GetCalibration()
         {
-            var request = new WriteRequest(Command.GetCalibration);
-            var response = WriteAndRead(request);
-            return response;
-        }
-
-        private byte[] WriteAndRead(WriteRequest request, ushort readBufferSize = 1)
-        {            
-            using (var readable = request.Use(_boundary).Write())
-                return readable.Read(readBufferSize);
+            return new WriteRequest(Command.GetCalibration);
         }
     }
 }

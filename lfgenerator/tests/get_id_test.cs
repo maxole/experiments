@@ -22,9 +22,9 @@ namespace LfGenerator2.Test
         public void get_id()
         {
             const byte expected = 0xc3;
-            var protocol = new LfProtocol(_boundary);
-            var response = protocol.GetId();
-            Assert.AreEqual(expected, response);
+            var protocol = new LfProtocol();
+            var response = protocol.GetId().Use(_boundary).Write().Read(1);
+            Assert.AreEqual(expected, response[0]);
         }
 
         class Writer : IBoundaryWriter
