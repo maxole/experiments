@@ -1,0 +1,21 @@
+
+class Unit : Kpk12MeasuringUnit
+{
+	public UshortRegister Reg12 { get; private set; }
+}
+
+var writer = _factory.Resolve<IRegisterWriter>();
+var unit = _factory.Resolve<Unit>();
+
+RegisterWorker _worker = unit.Use(writer);
+
+_worker.For(unit.Reg12).Write(new ReadWriteValue<ushort>{Expected = 0x2});
+
+... or ...
+class Reg12 : ReadOnlyValue<ushort>{
+	public void Initialize(){
+		...
+		_writer.For(unit.Reg12).Read(this);
+		...
+	}
+}

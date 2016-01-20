@@ -1,3 +1,9 @@
 
-var collection = _scanner.Scan<ParameterBase>(new Source(name), v => v.Validate(_validator.Verify))
-                .Where(p => p.IsEnable && list.Any(e => e.Contains(p.Number)));
+class Parameter {
+	public bool IsEnable {get;set;}
+}
+
+var collection = _scanner.Scan<Parameter>(new Source(name), v => v.Validate(_validator.Verify))
+                .Where(p => p.IsEnable));
+// наличие ошибок				
+_validator.Errors
