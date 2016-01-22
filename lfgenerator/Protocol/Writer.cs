@@ -1,47 +1,17 @@
-using System;
-using System.Linq;
-using LFGenerator2.Transport;
+using Hardware.AwGenerators.Sparc.Transport;
 
-namespace LFGenerator2.Protocol
+namespace Hardware.AwGenerators.Sparc.Protocol
 {
     public static class WriterExt
     {
-        public static Writer Use(this WriteRequest request, ITransportBoundary boundary)
+        public static ReadableBoundary Write<T>(this ITransportBoundary boundary, T request, bool autoClose = true, int timeout = 500)
+            where T : WriteRequest
         {
-            return new Writer(request, boundary);
-        }
-    }
-
-    public class Writer : IDisposable
-    {
-        private readonly WriteRequest _request;
-        private readonly IBoundaryWriter _writer;
-        private ReadableBoundary _readable;
-
-        public Writer(WriteRequest request, ITransportBoundary boundary)
-        {
-            _request = request;
-            _writer = boundary.Writer();
-        }
-
-        public ReadableBoundary Write(bool autoClose = true, int timeout = 500)
-        {
-            _readable = _writer.Write(_request.Parameters.ToArray(), timeout);
-            if (autoClose)
-                _readable.Dispose();
-            return _readable;
-        }
-
-        public byte[] Read(ushort size, int timeout = 500)
-        {
-            if(_readable == null)
-                throw new Exception("Cannot read without write");
-            return _readable.Read(size, timeout);
-        }
-
-        public void Dispose()
-        {
-            _writer.Dispose();
+            var writer = boundary.Writer();
+            var response = writer.Write(request, timeout);
+            if(autoClose)
+                response.Dispose();
+            return response;
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EfawateerTests
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class process_payment
     {
         private DataTable paymentTable;
@@ -35,7 +35,7 @@ namespace EfawateerTests
             row["ErrorCode"] = 0;
             row["Params"] = string.Empty;
 
-            var gate = new EfawateerGateway();
+            var gate = new Gateways.EfawateerGateway();
             gate.ProcessPayment(row, null, null);
         }
 
@@ -46,7 +46,7 @@ namespace EfawateerTests
 
             var row = operatorTable.NewRow();
 
-            var gate = new EfawateerGateway();
+            var gate = new Gateways.EfawateerGateway();
             gate.ProcessOnlineCheck(data, row);
         }
 

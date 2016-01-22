@@ -1,11 +1,11 @@
-﻿using LFGenerator2.Transport;
+﻿using Hardware.AwGenerators.Sparc.Transport;
 
-namespace LFGenerator2.Protocol
+namespace Hardware.AwGenerators.Sparc.Protocol
 {
     /// <summary>
     /// Протокол обмена с Генератором многофункциональным СПАН 468789.001 
     /// </summary>
-    public interface ILfProtocol
+    public interface ILfRequestFormatter
     {
         /// <summary>
         /// Получить идентификатор устройства

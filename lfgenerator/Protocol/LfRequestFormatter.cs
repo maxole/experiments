@@ -1,8 +1,8 @@
-﻿using LFGenerator2.Transport;
+﻿using Hardware.AwGenerators.Sparc.Transport;
 
-namespace LFGenerator2.Protocol
+namespace Hardware.AwGenerators.Sparc.Protocol
 {
-    public class LfProtocol : ILfProtocol
+    public class LfRequestFormatter : ILfRequestFormatter
     {
         public WriteRequest GetId()
         {

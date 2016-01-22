@@ -43,7 +43,7 @@ namespace Gateways
                 if (xmlData.DocumentElement["crt_key"] != null)
                     _privateKey = xmlData.DocumentElement["crt_key"].InnerText.Trim();
 
-                var singer = new EfawateerSigner(_privateKey, _password);
+                var singer = new EfawateerSigner(_privateKey, _password, null);
                 singer.CheckCerificate();
 
                 if (xmlData.DocumentElement["detail_log"] != null &&
@@ -128,7 +128,7 @@ namespace Gateways
             var message = string.Empty;
             try
             {
-                var signer = new EfawateerSigner(_privateKey, _password);
+                var signer = new EfawateerSigner(_privateKey, _password, null);
                 signer.CheckCerificate();
 
                 // todo добавить проверку параметров
@@ -148,7 +148,7 @@ namespace Gateways
 
         private string SendRequest(string request, string action)
         {            
-            var signer = new EfawateerSigner(_privateKey, _password);
+            var signer = new EfawateerSigner(_privateKey, _password, null);
             _proxy = new EfawateerProxy(_serviceUri, m => { if (_detailLogEnabled) DetailLog(m); });
             var response = _proxy.SendSoapRequest(request, action, timeout);
             if (!signer.VerifyData(response))

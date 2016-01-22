@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LFGenerator2.Trace;
+using NLog;
 
-namespace LFGenerator2.Transport
+namespace Hardware.AwGenerators.Sparc.Transport
 {
     public class AuditingWriter : ITransportBoundary, IBoundaryWriter
     {
@@ -23,18 +23,18 @@ namespace LFGenerator2.Transport
                 _writer = _boundary.Writer();
         }
 
-        public ReadableBoundary Write(byte[] command, int timeout)
+        public ReadableBoundary Write<T>(T request, int timeout) where T : WriteRequest
         {
             try
             {
                 Initialize();
-                _writer.Write(command, timeout);
-                _logger.Log(LoggerEntryLevel.Info, string.Format("request: '{0}'", command.Format()));
+                _writer.Write(request, timeout);
+                _logger.Log(LogLevel.Info, AuditRequest(request));
                 return new ReadableBoundary(this);
             }
             catch (Exception exception)
             {
-                _logger.Log(LoggerEntryLevel.Error, exception.Message);
+                _logger.Log(LogLevel.Error, exception.Message);
                 throw;
             }
         }
@@ -45,12 +45,12 @@ namespace LFGenerator2.Transport
             {
                 Initialize();
                 var response = _writer.Read(size, timeout);
-                _logger.Log(LoggerEntryLevel.Info, string.Format("response: '{0}'", response.Format()));
+                _logger.Log(LogLevel.Info, AuditResponse(response));
                 return response;
             }
             catch (Exception exception)
             {
-                _logger.Log(LoggerEntryLevel.Error, exception.Message);
+                _logger.Log(LogLevel.Error, exception.Message);
                 throw;
             }
         }
@@ -64,21 +64,28 @@ namespace LFGenerator2.Transport
         {
             return new AuditingWriter(_boundary, _logger);
         }
+
+        private static string AuditRequest<T>(T request) where T : WriteRequest
+        {
+            return string.Format("> '{0}' '{1}'", request.Command, AuditCollection(request.Parameters));
+        }
+
+        private static string AuditResponse(IEnumerable<byte> buffer)
+        {
+            return string.Format("< '{0}'", AuditCollection(buffer));
+        }
+
+        private static string AuditCollection(IEnumerable<byte> collection)
+        {
+            return string.Join(string.Empty, collection.Select(p => "0x" + Convert.ToString(p, 16)));
+        }
     }
 
-    public static class AuditingWriterExt
+    public static class MakeWriterAudited
     {
         public static AuditingWriter Auditing(this ITransportBoundary boundary, ILogger logger)
         {
             return new AuditingWriter(boundary, logger);
-        }
-    }
-
-    public static class AuditingFormatParameterExt
-    {
-        public static string Format(this IEnumerable<byte> collection)
-        {
-            return string.Join(string.Empty, collection.Select(p => "0x" + Convert.ToString(p, 16)));
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EfawateerTests
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class initialize
     {
         [TestMethod]

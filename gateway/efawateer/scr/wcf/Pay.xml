@@ -1,0 +1,38 @@
+﻿<!--page 127-->
+<MFEP>
+  <MsgHeader>
+    <TmStp>2016-01-21T14:38:24</TmStp>
+    <GUID>b74be841-78ec-4e92-82eb-374e517b7e9c</GUID>
+    <TrsInf>
+      <SdrCode>2</SdrCode>
+      <RcvCode>1</RcvCode>
+      <ReqTyp>PREPADPMTRS</ReqTyp>
+    </TrsInf>
+  </MsgHeader>
+  <MsgBody>
+    <TrxInf>
+      <AcctInfo>
+        <BillingNo>123456</BillingNo>
+        <BillerCode>158</BillerCode>
+      </AcctInfo>
+      <BankTrxID>123456789012345</BankTrxID>
+      <ValidationCode>123</ValidationCode>
+      <PmtStatus>PmtNew</PmtStatus>
+      <DueAmt>0.1</DueAmt>
+      <PaidAmt>0.4</PaidAmt>
+      <ProcessDate>2016-01-21T14:38:24</ProcessDate>
+      <AccessChannel>INTERNET</AccessChannel>
+      <PaymentMethod>CASH</PaymentMethod>
+      <ServiceTypeDetails>
+        <ServiceType>Prepaid</ServiceType>
+      </ServiceTypeDetails>
+    </TrxInf>
+  </MsgBody>
+  <MsgFooter>
+    <Security></Security>
+  </MsgFooter>
+</MFEP>
+
+<!--
+PREPADPMTRS
+-->

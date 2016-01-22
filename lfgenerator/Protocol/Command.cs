@@ -1,4 +1,4 @@
-﻿namespace LFGenerator2.Protocol
+﻿namespace Hardware.AwGenerators.Sparc.Protocol
 {
     /// <summary>
     ///     Коды команд и ответов генератора

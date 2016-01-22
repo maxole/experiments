@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Gateways
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class check_settings
     {
         [TestMethod]

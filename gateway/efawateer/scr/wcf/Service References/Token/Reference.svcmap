@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f3a53397-0925-4900-a87f-6f077a1e4911" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://79.175.2.123:6001/Token.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Token.xsd" MetadataType="Schema" ID="e793a524-afab-4ba9-83bc-177d3c56639f" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc?xsd=xsd0" />
+    <MetadataFile FileName="Token.disco" MetadataType="Disco" ID="9e763a5b-42b2-424a-92cb-f172e7ca9a47" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc?disco" />
+    <MetadataFile FileName="Token1.xsd" MetadataType="Schema" ID="18c830df-9a4c-404c-88e8-7fdfe48ddafc" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc?xsd=xsd1" />
+    <MetadataFile FileName="Token.wsdl" MetadataType="Wsdl" ID="b12391bc-f929-49db-888a-10fab4c5b3de" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

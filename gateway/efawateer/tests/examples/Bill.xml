@@ -1,0 +1,41 @@
+﻿<!--page 127-->
+<MFEP>
+  <MsgHeader>
+    <TmStp>2016-01-21T14:38:24</TmStp>
+    <TrsInf>
+      <SdrCode>2</SdrCode>
+      <RcvCode>1</RcvCode>
+      <ReqTyp>BILPMTRQ</ReqTyp>
+    </TrsInf>
+  </MsgHeader>
+  <MsgBody>
+    <Transactions>
+      <TrxInf>
+        <AcctInfo>          
+          <BillingNo>07140</BillingNo>
+          <BillNo>07140</BillNo>
+          <BillerCode>158</BillerCode>
+        </AcctInfo>
+        <BankTrxID>123456789012345</BankTrxID>
+        <PmtStatus>PmtNew</PmtStatus>
+        <DueAmt>0.1</DueAmt>
+        <PaidAmt>0.4</PaidAmt>
+        <ProcessDate>2016-01-21T14:38:24</ProcessDate>
+        <AccessChannel>ATM</AccessChannel>
+        <PaymentMethod>CASH</PaymentMethod>
+        <ServiceTypeDetails>
+          <ServiceType>Prepaid</ServiceType>
+        </ServiceTypeDetails>
+      </TrxInf>
+    </Transactions>
+  </MsgBody>
+  <MsgFooter>
+    <Security>
+      <Signature>1234567890</Signature>
+    </Security>
+  </MsgFooter>
+</MFEP>
+
+<!--
+PREPADPMTRS     
+-->

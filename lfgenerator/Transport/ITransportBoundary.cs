@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LFGenerator2.Transport
+namespace Hardware.AwGenerators.Sparc.Transport
 {
     public interface ITransportBoundary
     {
@@ -9,7 +9,7 @@ namespace LFGenerator2.Transport
 
     public interface IBoundaryWriter : IDisposable
     {
-        ReadableBoundary Write(byte[] command, int timeout);
+        ReadableBoundary Write<T>(T request, int timeout) where T : WriteRequest;
         byte[] Read(ushort size, int timeout);
     }
 }

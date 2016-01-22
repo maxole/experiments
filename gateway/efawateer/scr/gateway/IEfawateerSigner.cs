@@ -2,13 +2,15 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using EfawateerGateway;
+using EfawateerGateway.Proxy.Domain;
 
 namespace Gateways
 {
     public interface IEfawateerSigner
     {
         void CheckCerificate();
-        string SignData(string toString);
+        string SignData(MsgBody body);
         bool VerifyData(string toString);
     }
 
@@ -16,11 +18,13 @@ namespace Gateways
     {
         private readonly string _certificate;
         private readonly string _password;
+        private readonly ISerializer _serializer;
 
-        public EfawateerSigner(string certificate, string password)
+        public EfawateerSigner(string certificate, string password, ISerializer serializer)
         {
             _certificate = certificate;
             _password = password;
+            _serializer = serializer;
         }
 
         public void CheckCerificate()
@@ -44,7 +48,7 @@ namespace Gateways
                 // If using a certificate with a trusted root you do not need to FindByTimeValid, instead:
                 // currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, true);
                 var currentCerts = certCollection.Find(X509FindType.FindByTimeValid, DateTime.Now, false);
-                var signingCert = currentCerts.Find(X509FindType.FindBySubjectDistinguishedName, certName, false);
+                var signingCert = currentCerts.Find(X509FindType.FindBySubjectName, certName, false);
                 if (signingCert.Count == 0)
                     throw new Exception("Сертификат не найден");
                 // Return the first certificate in the collection, has the right name and is current.
@@ -56,11 +60,14 @@ namespace Gateways
             }
         }
 
-        public string SignData(string toString)
+        public string SignData(MsgBody body)
         {
+            var toString = _serializer.Serialize(body);
+
             var certificate = GetCertificateFromStore(_certificate);
             var key = (RSACryptoServiceProvider) certificate.PrivateKey;
-            var data = key.SignData(Encoding.Unicode.GetBytes(toString), CryptoConfig.MapNameToOID("SHA256"));
+            // todo algorithm ?
+            var data = key.SignData(Encoding.Unicode.GetBytes(toString), CryptoConfig.MapNameToOID("sha1"));
             return Convert.ToBase64String(data);
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LFGenerator2.Transport
+namespace Hardware.AwGenerators.Sparc.Transport
 {
     public class ReadableBoundary : IDisposable
     {

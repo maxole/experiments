@@ -1,0 +1,15 @@
+﻿<MFEP>
+  <MsgHeader>
+    <TmStp>2016-01-22T07:14:14</TmStp>
+    <GUID>5b51c1c6-d995-43f1-9122-1f4976398359</GUID>
+    <TrsInf>
+      <RcvCode>158</RcvCode>
+      <ResTyp>BILPMTRS</ResTyp>
+    </TrsInf>
+    <Result>
+      <ErrorCode>2</ErrorCode>
+      <ErrorDesc>InvalidSignature</ErrorDesc>
+      <Severity>Error</Severity>
+    </Result>
+  </MsgHeader>
+</MFEP>
