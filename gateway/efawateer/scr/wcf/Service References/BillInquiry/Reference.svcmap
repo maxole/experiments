@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4fdc231b-d025-4012-8302-da566f79807f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://79.175.2.123:6004/BillInquiry.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="BillInquiry.xsd" MetadataType="Schema" ID="06307f17-c47b-4ad0-bbb5-60a8718a2320" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc?xsd=xsd1" />
+    <MetadataFile FileName="BillInquiry.disco" MetadataType="Disco" ID="5ceb3fcb-76ac-4bec-b0d9-3acb33555122" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc?disco" />
+    <MetadataFile FileName="BillInquiry1.xsd" MetadataType="Schema" ID="6fe0e97a-66b4-4d1b-a8a1-d9e01b33c547" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc?xsd=xsd0" />
+    <MetadataFile FileName="BillInquiry.wsdl" MetadataType="Wsdl" ID="7f65b6a7-d4c9-44b9-bf76-29826e74d457" SourceId="1" SourceUrl="http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

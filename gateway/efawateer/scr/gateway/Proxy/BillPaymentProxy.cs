@@ -20,7 +20,7 @@ namespace EfawateerGateway.Proxy
         }
 
         /*
-        * "https://cbj-pres-test.e-fawateer.com.jo:7003/BillPayment.svc/WSHttps"
+        * http://cbj-pres-test.e-fawateer.com.jo:6003/BillPayment.svc/BasicHttp"
         */
         public void Configuration(string uri)
         {

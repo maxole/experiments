@@ -66,14 +66,17 @@
     <Compile Include="Proxy\Domain\MsgHeader.cs" />
     <Compile Include="Proxy\Domain\PaymentMethod.cs" />
     <Compile Include="Proxy\Domain\PmtStatus.cs" />
+    <Compile Include="Proxy\Domain\PrepaidPaymentRequest.cs" />
     <Compile Include="Proxy\Domain\RequestResult.cs" />
     <Compile Include="Proxy\Domain\ServiceType.cs" />
     <Compile Include="Proxy\Domain\ServiceTypeDetails.cs" />
     <Compile Include="Proxy\Domain\Severity.cs" />
     <Compile Include="Proxy\Domain\Transactions.cs" />
     <Compile Include="Proxy\Domain\TrxInf.cs" />
+    <Compile Include="Proxy\PrepaidPaymentProxy.cs" />
     <Compile Include="Proxy\Service\IBillPaymentService.cs" />
     <Compile Include="AuthenticateTokenProvider.cs" />
+    <Compile Include="Proxy\Service\IPrepaidPaymentService.cs" />
     <Compile Include="Proxy\Service\ITokenService.cs" />
     <Compile Include="Proxy\BillPaymentProxy.cs" />
   </ItemGroup>

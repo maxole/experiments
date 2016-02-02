@@ -4,6 +4,8 @@ namespace EfawateerGateway.Proxy.Domain
     {
         FixedLine,
         Internet,
-        Prepaid
+        Prepaid,
+        Mobile,
+        Electricity
     }
 }

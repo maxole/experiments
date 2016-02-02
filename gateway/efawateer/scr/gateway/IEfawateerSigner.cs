@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Xml.Linq;
 using EfawateerGateway;
 using EfawateerGateway.Proxy.Domain;
 
@@ -11,6 +12,7 @@ namespace Gateways
     {
         void CheckCerificate();
         string SignData(MsgBody body);
+        string SignData(string body);
         bool VerifyData(string toString);
     }
 
@@ -62,12 +64,19 @@ namespace Gateways
 
         public string SignData(MsgBody body)
         {
-            var toString = _serializer.Serialize(body);
+            var e = XElement.Parse(_serializer.Serialize(body)).ToString();
+            return SignData(e);
+        }
 
+        public string SignData(string body)
+        {
             var certificate = GetCertificateFromStore(_certificate);
-            var key = (RSACryptoServiceProvider) certificate.PrivateKey;
+
+            RSACryptoServiceProvider key = new RSACryptoServiceProvider();
+            key.FromXmlString(certificate.PrivateKey.ToXmlString(true));
+         
             // todo algorithm ?
-            var data = key.SignData(Encoding.Unicode.GetBytes(toString), CryptoConfig.MapNameToOID("sha1"));
+            var data = key.SignData(Encoding.Unicode.GetBytes(body), CryptoConfig.MapNameToOID("sha256"));
             return Convert.ToBase64String(data);
         }
 

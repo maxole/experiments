@@ -3,6 +3,7 @@
     public enum PaymentMethod
     {
         CASH,
-        EFT
+        EFT,
+        CCARD
     }
 }

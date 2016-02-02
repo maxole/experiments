@@ -17,7 +17,9 @@ namespace EfawateerTests
             {
                 {typeof (BillPaymentRequest).Name, new XmlSerializer(typeof (BillPaymentRequest), new XmlRootAttribute("MFEP"))},
                 {typeof (RequestResult).Name, new XmlSerializer(typeof (RequestResult), new XmlRootAttribute("MFEP"))},
-                {typeof (MsgBody).Name, new XmlSerializer(typeof (MsgBody))}
+                {typeof (MsgBody).Name, new XmlSerializer(typeof (MsgBody))},
+                {typeof(PrepaidPaymentRequest).Name, new XmlSerializer(typeof(PrepaidPaymentRequest), new XmlRootAttribute("MFEP"))},
+                {typeof (MsgBody2).Name, new XmlSerializer(typeof (MsgBody2))},
             });
 
             _serializer = new Serializer(overriders);

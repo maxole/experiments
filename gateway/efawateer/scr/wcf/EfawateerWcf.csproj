@@ -43,7 +43,37 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\AccountInquiry\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\AccountUpload\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\AddCustomerBilling\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\BillersList\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\BillInquiry\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Service References\BillPayment\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PaymentInquiry\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -70,11 +100,53 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
+    <None Include="Service References\AccountInquiry\AccountInquiry.wsdl" />
+    <None Include="Service References\AccountInquiry\AccountInquiry.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountInquiry\AccountInquiry1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountUpload\AccountUpload.wsdl" />
+    <None Include="Service References\AccountUpload\AccountUpload.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountUpload\AccountUpload1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AddCustomerBilling\AddCustomerBilling.wsdl" />
+    <None Include="Service References\AddCustomerBilling\AddCustomerBilling.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AddCustomerBilling\AddCustomerBilling1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BillersList\BillersList.wsdl" />
+    <None Include="Service References\BillersList\BillersList.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BillersList\BillersList1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BillInquiry\BillInquiry.wsdl" />
+    <None Include="Service References\BillInquiry\BillInquiry.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\BillInquiry\BillInquiry1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\BillPayment\BillPayment.wsdl" />
     <None Include="Service References\BillPayment\BillPayment.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\BillPayment\BillPayment1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PaymentInquiry\PaymentInquiry.wsdl" />
+    <None Include="Service References\PaymentInquiry\PaymentInquiry.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PaymentInquiry\PaymentInquiry1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\PrepaidPayment\PrepaidPayment.wsdl" />
@@ -100,7 +172,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AccountInquiry\" />
+    <WCFMetadataStorage Include="Service References\AccountUpload\" />
+    <WCFMetadataStorage Include="Service References\AddCustomerBilling\" />
+    <WCFMetadataStorage Include="Service References\BillersList\" />
+    <WCFMetadataStorage Include="Service References\BillInquiry\" />
     <WCFMetadataStorage Include="Service References\BillPayment\" />
+    <WCFMetadataStorage Include="Service References\PaymentInquiry\" />
     <WCFMetadataStorage Include="Service References\PrepaidPayment\" />
     <WCFMetadataStorage Include="Service References\PrepaidValidation\" />
     <WCFMetadataStorage Include="Service References\Token\" />
@@ -141,27 +219,85 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\BillPayment\BillPayment.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\BillPayment\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\BillPayment\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\BillPayment\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Bill.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="PrepaidValidation.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="PrepaidPayment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="PaymentInquiry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Service References\PaymentInquiry\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\PaymentInquiry\configuration.svcinfo" />
+    <None Include="Service References\PaymentInquiry\configuration91.svcinfo" />
+    <None Include="Service References\PaymentInquiry\PaymentInquiry.disco" />
+    <None Include="Service References\BillInquiry\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\BillInquiry\configuration.svcinfo" />
+    <None Include="Service References\BillInquiry\configuration91.svcinfo" />
+    <None Include="Service References\BillInquiry\BillInquiry.disco" />
+    <None Include="Service References\BillPayment\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\BillPayment\configuration.svcinfo" />
+    <None Include="Service References\BillPayment\configuration91.svcinfo" />
+    <None Include="Service References\BillPayment\BillPayment.disco" />
+    <None Include="Service References\AddCustomerBilling\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AddCustomerBilling\configuration.svcinfo" />
+    <None Include="Service References\AddCustomerBilling\configuration91.svcinfo" />
+    <None Include="Service References\AddCustomerBilling\AddCustomerBilling.disco" />
+    <None Include="AccountUpload.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="AccountInquiry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="AddCustomerBilling.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="BillPayment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="BillInquiry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="error.xml" />
+    <None Include="Service References\AccountUpload\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AccountUpload\configuration.svcinfo" />
+    <None Include="Service References\AccountUpload\configuration91.svcinfo" />
+    <None Include="Service References\AccountUpload\AccountUpload.disco" />
+    <None Include="Service References\BillersList\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\BillersList\configuration.svcinfo" />
+    <None Include="Service References\BillersList\configuration91.svcinfo" />
+    <None Include="Service References\BillersList\BillersList.disco" />
+    <None Include="Service References\AccountInquiry\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AccountInquiry\configuration.svcinfo" />
+    <None Include="Service References\AccountInquiry\configuration91.svcinfo" />
+    <None Include="Service References\AccountInquiry\AccountInquiry.disco" />
     <None Include="Service References\PrepaidValidation\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

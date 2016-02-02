@@ -9,6 +9,8 @@ namespace EfawateerGateway.Proxy.Domain
         public AcctInfo AcctInfo { get; set; }
         [XmlElement("BankTrxID")]
         public string BankTrxID { get; set; }
+        [XmlElement("ValidationCode")]
+        public string ValidationCode { get; set; }
         [XmlElement("PmtStatus")]
         public PmtStatus PmtStatus { get; set; }
         [XmlElement("DueAmt")]

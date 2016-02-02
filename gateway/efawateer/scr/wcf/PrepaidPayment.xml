@@ -1,0 +1,36 @@
+﻿<MFEP>
+  <MsgHeader>
+    <TmStp>2016-01-21T14:38:24</TmStp>
+    <GUID>?</GUID>
+    <TrsInf>
+      <SdrCode>158</SdrCode>
+      <RcvCode>1</RcvCode>
+      <ReqTyp>PREPADPMTRQ</ReqTyp>
+    </TrsInf>
+  </MsgHeader>
+  <MsgBody>
+    <TrxInf>
+      <AcctInfo>
+        <!--<BillingNo>071231235</BillingNo>-->
+        <BillerCode>39</BillerCode>
+      </AcctInfo>
+      <BankTrxID>?</BankTrxID>
+      <ValidationCode>1</ValidationCode>
+      <PmtStatus>PmtNew</PmtStatus>
+      <DueAmt>10</DueAmt>
+      <PaidAmt>10</PaidAmt>
+      <ProcessDate>2016-01-21T14:38:24</ProcessDate>
+      <AccessChannel>ATM</AccessChannel>
+      <PaymentMethod>CASH</PaymentMethod>
+      <ServiceTypeDetails>
+        <ServiceType>Prepaid</ServiceType>
+        <PrepaidCat>JD_2</PrepaidCat>
+      </ServiceTypeDetails>
+    </TrxInf>
+  </MsgBody>
+  <MsgFooter>
+    <Security>
+      <Signature>1234567890</Signature>
+    </Security>
+  </MsgFooter>
+</MFEP>
