@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.ServiceModel;
@@ -22,7 +23,9 @@ namespace Gateways
         private string _tokenUrl;
         private string _inquiryUrl;
         private string _paymentUrl;
-        
+
+        private const string BillInquiry = "billInquiry";
+        private const string BillPayment = "billPayment";
 
         public EfawateerGateway()
         {            
@@ -84,7 +87,7 @@ namespace Gateways
 
         public void ProcessPayment(object paymentData, object operatorData, object exData)
         {
-            var initialSession = string.Empty;
+            var initial_session = string.Empty;
 #if !TEST
             log("Efawateer processing...");
 #endif
@@ -94,8 +97,9 @@ namespace Gateways
                 if (paymentRow == null) throw new Exception("unable to extract paymentData");
 
                 var operatorRow = operatorData as DataRow;
+                if (operatorRow == null) throw new Exception("unable to extract operatorRow");
 
-                initialSession = (paymentRow["InitialSessionNumber"] as string);
+                initial_session = (paymentRow["InitialSessionNumber"] as string);
                 var session = (paymentRow["SessionNumber"] is DBNull) ? "" : (paymentRow["SessionNumber"] as string);
 
                 var ap = (int) paymentRow["TerminalID"];
@@ -103,12 +107,100 @@ namespace Gateways
                 var errorCode = (int) paymentRow["ErrorCode"];
                 var paymentParams = paymentRow["Params"] as string;
 
+                if ((session.Length == 0) && ((status == 103) || (status == 104)))
+                {
+#if !TEST
+                    PreprocessPaymentStatus(ap, initial_session, errorCode, (status == 103) ? 102 : 100, exData);
+#endif
+                    return;
+                }
+
+                if (status == 109)
+                {
+                    log("Отмена счета не поддерживается");
+                    return;
+                }
+
+                string operatorFormatString = operatorRow["OsmpFormatString"] is DBNull ? "" : operatorRow["OsmpFormatString"] as string;
+
+                var formatedPaymentParams = FormatParameters(paymentParams, operatorFormatString);
+                var parametersList = new StringList(formatedPaymentParams, ";");
+
+                var amount = otof(paymentRow["Amount"]);
+                var amountAll = otof(paymentRow["AmountAll"]);
+
+                if (session.Length == 0)
+                    session = GenerateSessionNumber12Digits();
+
+                var key = Authenticate();
+
+                var request = GetRequestContent(BillPayment);
+
+                var sign = new EfawateerSigner(_certificate);
+
+                var time = DateTime.Now.ToString("s");
+                request.Element("MsgHeader").Element("TmStp").Value = time;
+                request.Element("MsgHeader").Element("TrsInf").Element("SdrCode").Value = _customerCode;
+
+                var trxInfo = request.Element("MsgBody").Element("Transactions").Element("TrxInf");
+
+                var acctInfo = trxInfo.Element("AcctInfo");
+                acctInfo.Element("BillingNo").Value = parametersList["billingno"];
+                acctInfo.Element("BillNo").Value = parametersList["billingno"];
+                acctInfo.Element("BillerCode").Value = _billerCode;
+
+                trxInfo.Element("BankTrxID").Value = session;
+                trxInfo.Element("DueAmt").Value = amount.ToString(CultureInfo.InvariantCulture);
+                trxInfo.Element("PaidAmt").Value = amountAll.ToString(CultureInfo.InvariantCulture);
+                trxInfo.Element("ProcessDate").Value = time;
+
+                request.Element("MsgFooter").Element("Security").Element("Signature").Value =
+                    sign.SignData(request.Element("MsgBody").ToString());
+
+                if (_detailLogEnabled)
+                    log("Payment request:" + request);
+
+                var service = new BillPaymentClient(new WSHttpBinding(SecurityMode.None, true),
+                    new EndpointAddress(_paymentUrl));
+                var response = service.PayBill(GenerateGuid(), key, request);
+
+                if (_detailLogEnabled)
+                    log("Payment response:" + response);
+
+                int code = 0;
+
+                var body = response.Element("MsgBody");
+                if (body == null)
+                {
+                    code = Convert.ToInt32(response.Element("MsgHeader").Element("Result").Element("ErrorCode").Value);
+#if !TEST
+                    PreprocessPaymentStatus(ap, initial_session, EfawateerCodeToCyberCode(code), status, exData);
+#endif
+                    return;
+                }
+
+                trxInfo = body.Element("Transactions").Element("TrxInf");
+                code = Convert.ToInt32(trxInfo.Element("Result").Element("ErrorCode").Value);
+                if (code != 0)
+                {
+#if !TEST
+                    PreprocessPaymentStatus(ap, initial_session, EfawateerCodeToCyberCode(code), status, exData);
+#endif
+                    return;
+                }
+
+                session = trxInfo.Element("JOEBPPSTrx").Value;
+
+#if !TEST
+                PreprocessPayment(ap, initial_session, session, DateTime.Now, exData);
+                PreprocessPaymentStatus(ap, initial_session, EfawateerCodeToCyberCode(code), status, exData);
+#endif
 
             }
             catch (Exception ex)
             {
 #if !TEST
-                log(string.Format("ProcessPayment (initial_session={0}) exception: {1}", initialSession, ex.Message));
+                log(string.Format("ProcessPayment (initial_session={0}) exception: {1}", initial_session, ex.Message));
 #else
                 throw;
 #endif
@@ -117,8 +209,8 @@ namespace Gateways
 
         public override string ProcessOnlineCheck(NewPaymentData paymentData, object operatorData)
         {
-            const int responseResult = 0;
-            string param;
+            int responseResult = 0;
+            string param = string.Empty;
             try
             {
                 var operatorRow = operatorData as DataRow;
@@ -132,11 +224,7 @@ namespace Gateways
                 
                 var token = Authenticate();
 
-                XElement request;
-                var assembly = Assembly.GetExecutingAssembly();
-                using (var stream = assembly.GetManifestResourceStream("EfawateerGateway.Proxy.billInquiry.xml"))
-                using (var reader = new StreamReader(stream))
-                    request = XElement.Parse(reader.ReadToEnd());
+                var request = GetRequestContent(BillInquiry);
                 
                 var signer = new EfawateerSigner(_certificate);
                 
@@ -149,21 +237,22 @@ namespace Gateways
                 if (_detailLogEnabled)
                     log("Inquire request:" + request);
 
-                var inquiryClient = new BillInquiryClient(new WSHttpBinding(SecurityMode.None, true), new EndpointAddress(_inquiryUrl));
-                var response = inquiryClient.Inquire(GenerateGuid(), token, request);
+                var service = new BillInquiryClient(new WSHttpBinding(SecurityMode.None, true), new EndpointAddress(_inquiryUrl));
+                var response = service.Inquire(GenerateGuid(), token, request);
 
                 if (_detailLogEnabled)
                     log("Inquire response:" + response);
 
-                if (response.Element("MsgBody") == null)
+                var body = response.Element("MsgBody");
+                if (body == null)
                     throw new Exception(string.Format("unable get bill inquery: {0}", response.Element("MsgHeader").Element("Result").ToString()));
-                
 
-                var count = Convert.ToInt32(response.Element("MsgBody").Element("RecCount").Value);
+
+                var count = Convert.ToInt32(body.Element("RecCount").Value);
                 if(count > 1)
                     throw new Exception("founded more whan 1 bills record");
 
-                var bill = response.Element("MsgBody").Element("BillsRec").Element("BillRec");
+                var bill = body.Element("BillsRec").Element("BillRec");
                 var due = bill.Element("DueAmount").Value;
                 var fee = bill.Element("FeesAmt").Value;
 
@@ -224,10 +313,26 @@ namespace Gateways
             var authenticate = token.Authenticate(GenerateGuid(), Convert.ToInt32(_customerCode), _password);
             if (_detailLogEnabled)
                 log("Authenticate" + authenticate);
-            if (authenticate.Element("MsgHeader") == null)
+            var body = authenticate.Element("MsgHeader");
+            if (body == null)
                 throw new Exception(string.Format("unable get token: {0}", authenticate.Element("MsgHeader").Element("Result").ToString()));
 
             return authenticate.Element("MsgBody").Element("TokenConf").Element("TokenKey").Value;
+        }
+
+        private XElement GetRequestContent(string request)
+        {            
+            var assembly = Assembly.GetExecutingAssembly();
+            using (var stream = assembly.GetManifestResourceStream(string.Format("EfawateerGateway.Proxy.{0}.xml", request)))
+            using (var reader = new StreamReader(stream))
+                return XElement.Parse(reader.ReadToEnd());
+        }
+
+        private int EfawateerCodeToCyberCode(int code)
+        {
+            if (code == 0)
+                return 0;
+            return 2100000 + code;
         }
     }
 }

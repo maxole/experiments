@@ -2,7 +2,7 @@
   <MsgHeader>
     <TmStp>?</TmStp>
     <TrsInf>
-      <SdrCode>158</SdrCode>
+      <SdrCode>?</SdrCode>
       <RcvCode>1</RcvCode>
       <ReqTyp>BILPMTRQ</ReqTyp>
     </TrsInf>
@@ -11,14 +11,14 @@
     <Transactions>
       <TrxInf>
         <AcctInfo>
-          <BillingNo>22134423S1</BillingNo>
-          <BillNo>22134423S</BillNo>
-          <BillerCode>39</BillerCode>
+          <BillingNo>?</BillingNo>
+          <BillNo>?</BillNo>
+          <BillerCode>?</BillerCode>
         </AcctInfo>
         <BankTrxID>?</BankTrxID>
         <PmtStatus>PmtNew</PmtStatus>        
-        <DueAmt>28.5</DueAmt>
-        <PaidAmt>28.5</PaidAmt>
+        <DueAmt>?</DueAmt>
+        <PaidAmt>?</PaidAmt>
         <ProcessDate>?</ProcessDate>
         <AccessChannel>ATM</AccessChannel>
         <PaymentMethod>CASH</PaymentMethod>
@@ -30,7 +30,7 @@
   </MsgBody>
   <MsgFooter>
     <Security>
-      <Signature>1234567890</Signature>
+      <Signature>?</Signature>
     </Security>
   </MsgFooter>
 </MFEP>

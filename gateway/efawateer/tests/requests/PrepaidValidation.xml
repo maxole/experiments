@@ -11,12 +11,12 @@
   <MsgBody>
     <BillingInfo>
       <AcctInfo>
-        <BillingNo>071231235</BillingNo>
+        <BillingNo>0712312356</BillingNo>
         <BillerCode>39</BillerCode>
       </AcctInfo>
-      <DueAmt>13</DueAmt>
+      <DueAmt>13.0</DueAmt>
       <ServiceTypeDetails>
-        <ServiceType>Electricity</ServiceType>
+        <ServiceType>Mobile</ServiceType>
       </ServiceTypeDetails>    
     </BillingInfo>
   </MsgBody>

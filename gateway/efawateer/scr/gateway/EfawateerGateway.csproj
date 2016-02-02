@@ -56,8 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\Service\IBillInquiry.cs" />
     <Compile Include="Proxy\Service\IBillPaymentService.cs" />
-    <Compile Include="AuthenticateTokenProvider.cs" />
-    <Compile Include="Proxy\Service\IPrepaidPaymentService.cs" />
     <Compile Include="Proxy\Service\ITokenService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Proxy\billInquiry.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Proxy\billPayment.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
