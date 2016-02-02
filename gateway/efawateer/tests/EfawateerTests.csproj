@@ -69,47 +69,63 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="bill_payment.cs" />
-    <Compile Include="CustomerProvider.cs" />
-    <Compile Include="prepaid_payment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="initialize.cs" />
     <Compile Include="check_settings.cs" />
-    <Compile Include="process_payment.cs" />
-    <Compile Include="signer.cs" />
-    <Compile Include="system_tests.cs" />
+    <Compile Include="process.cs" />
     <Compile Include="authenticate.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Proxy\IAccountInquiry.cs" />
+    <Compile Include="Proxy\IAccountUpload.cs" />
+    <Compile Include="Proxy\IAddCustomerBilling.cs" />
+    <Compile Include="Proxy\IBillersList.cs" />
+    <Compile Include="Proxy\IBillInquiry.cs" />
+    <Compile Include="Proxy\IPayment.cs" />
+    <Compile Include="Proxy\IPaymentInquiry.cs" />
+    <Compile Include="Proxy\IPrepaidPayment.cs" />
+    <Compile Include="Proxy\IPrepaidValidation.cs" />
+    <Compile Include="Proxy\ITokenService.cs" />
+    <Compile Include="manual_test_all_service.cs" />
     <Compile Include="UriContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="examples\prepaid.xml">
+    <Content Include="initialize.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="examples\Bill.xml">
+    </Content>
+    <Content Include="requests\AccountInquiry.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="examples\error.xml">
+    </Content>
+    <Content Include="requests\AccountUpload.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="examples\Pay.xml" />
-    <None Include="prepare_result_success.xml">
+    </Content>
+    <Content Include="requests\AddCustomerBilling.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="requests\BillInquiry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="requests\BillPayment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="requests\PaymentInquiry.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="requests\PrepaidPayment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="requests\PrepaidValidation.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\scr\gateway\EfawateerGateway.csproj">
       <Project>{526984D3-9BD6-4381-A1AC-8D75ABB8C3CA}</Project>
       <Name>EfawateerGateway</Name>
     </ProjectReference>
-    <ProjectReference Include="..\scr\wcf\EfawateerWcf.csproj">
-      <Project>{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}</Project>
-      <Name>EfawateerWcf</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

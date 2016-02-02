@@ -1,26 +1,17 @@
 ﻿<gateway id="909" name="eFAWATEER" file="EfawateerGateway.dll" type="Gateways.EfawateerGateway">
-  <template>
-    <url>http://mail.ru</url>
-    <crt_key hint="закрытый ключ">CN=XM</crt_key>
-    <crt_pass hint="пароль к ключу" /> 
-    <detail_log hint="детальный лог">true</detail_log>
+  <template>        
+    <token_url hint="Url запроса аутентификация">http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc</token_url>    
+    <inquiry_url hint="Url запроса получение реквизитов счета">http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc</inquiry_url>    
+    <payment_url hint="Url запроса оплата">http://cbj-pres-test.e-fawateer.com.jo:6003/BillPayment.svc</payment_url>
 
-    <request_url hint="Url запроса">https://espp2.mts.ru/PaymentProcessingXMLEndpointServerProxy/XMLPaymentProcessingDispatcher</request_url>
-    <espp_cert file="" hint="Серверный сертификат, не обязателен, если уже установлен в системе" />
-    <pps_cert file="" hint="Клиентский сертификат" />
-    <pc_code hint="Код ПЦ Представителя, через который принимается платеж, последняя цифра в common name" />
-    <contract_code hint="Код договора, по которому принимается платеж" />
-    <vps_code hint="Код ВПС, для регистрации точек" />
-    <pps_cert_pass secure="" hint="Сетевой пароль" />
-    <terminal_type hint="Тип терминала, через который принимается платеж">1</terminal_type>
-    <test_phone hint="Тестовый номер телефона для проверки правильности параметров">9168417481</test_phone>
-    <stuff_code_with_comission hint="Код типа платежного инструмента для платежей с комиссией">9</stuff_code_with_comission>
-    <stuff_code_without_comission hint="Код типа платежного инструмента для платежей без комиссии">10</stuff_code_without_comission>
-    <reward_10 hint="Вознаграждение для платежного инструмента номер 10">0.022</reward_10>
-    <reward_9 hint="Вознаграждение для платежного инструмента номер 9">0.010</reward_9>
-    <test_points hint="Список тестовых точек, через запятую, которым будет устанавливаться stuff_code, заданный в поле test_stuff_code. Платежи с этих точек не будут попадать в сверку!" />
-    <test_stuff_code>99</test_stuff_code>
-    <regesty_path hint="Путь для хранения отправленных реестров">files\Regestries</regesty_path>
-    <test_terminal_id hint="Номер точки, с которой будет производится проверка номера. Точка должна быть зарегестрирована в MTS">13</test_terminal_id>
+    <!--(предоставляется eFAWATEER)-->
+    <customer_code hint="код клиента">158</customer_code>    
+    <password hint="пароль клиента">Test@1234</password>
+    <!-- сертификат должен быть импортирован с ключом "Mark this key as exportable." сделать ключ экспортируемым ...-->
+    <crt hint="наименование сертификата (friendly name)">ARKAIM-TEST</crt>
+    <biller_code hint="">39</biller_code>
+   
+    <detail_log hint="детальный лог">true</detail_log>
+    
   </template>
 </gateway>

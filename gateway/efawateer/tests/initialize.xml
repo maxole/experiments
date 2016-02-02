@@ -1,0 +1,15 @@
+﻿<template>
+  <token_url hint="Url запроса аутентификация">http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc</token_url>
+  <inquiry_url hint="Url запроса получение реквизитов счета">http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc</inquiry_url>
+  <payment_url hint="Url запроса оплата">http://cbj-pres-test.e-fawateer.com.jo:6003/BillPayment.svc</payment_url>
+
+  <!--(предоставляется eFAWATEER)-->
+  <customer_code hint="код клиента">158</customer_code>
+  <password hint="пароль клиента">Test@1234</password>
+  <!-- сертификат должен быть импортирован с ключом "Mark this key as exportable." сделать ключ экспортируемым ...-->
+  <crt hint="наименование сертификата (friendly name)">ARKAIM-TEST</crt>
+  <biller_code hint="">39</biller_code>
+
+  <detail_log hint="детальный лог">false</detail_log>
+
+</template>

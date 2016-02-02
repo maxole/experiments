@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfawateerTests", "..\tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfawateerGateway", "gateway\EfawateerGateway.csproj", "{526984D3-9BD6-4381-A1AC-8D75ABB8C3CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfawateerWcf", "wcf\EfawateerWcf.csproj", "{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,12 +24,6 @@ Global
 		{526984D3-9BD6-4381-A1AC-8D75ABB8C3CA}.DebugTest|Any CPU.Build.0 = DebugTest|Any CPU
 		{526984D3-9BD6-4381-A1AC-8D75ABB8C3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{526984D3-9BD6-4381-A1AC-8D75ABB8C3CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}.DebugTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}.DebugTest|Any CPU.Build.0 = Debug|Any CPU
-		{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC8C5A4B-95E7-4CCF-9B3D-A30ADED69A2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

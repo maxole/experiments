@@ -52,40 +52,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EfawateerGateway.cs" />
-    <Compile Include="IEfawateerProxy.cs" />
     <Compile Include="IEfawateerSigner.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="IXmlParameterOverriders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxy\AuthenticateProxy.cs" />
-    <Compile Include="Proxy\Domain\AccessChannel.cs" />
-    <Compile Include="Proxy\Domain\AcctInfo.cs" />
-    <Compile Include="Proxy\Domain\BillPaymentRequest.cs" />
-    <Compile Include="Proxy\Domain\MsgBody.cs" />
-    <Compile Include="Proxy\Domain\MsgFooter.cs" />
-    <Compile Include="Proxy\Domain\MsgHeader.cs" />
-    <Compile Include="Proxy\Domain\PaymentMethod.cs" />
-    <Compile Include="Proxy\Domain\PmtStatus.cs" />
-    <Compile Include="Proxy\Domain\PrepaidPaymentRequest.cs" />
-    <Compile Include="Proxy\Domain\RequestResult.cs" />
-    <Compile Include="Proxy\Domain\ServiceType.cs" />
-    <Compile Include="Proxy\Domain\ServiceTypeDetails.cs" />
-    <Compile Include="Proxy\Domain\Severity.cs" />
-    <Compile Include="Proxy\Domain\Transactions.cs" />
-    <Compile Include="Proxy\Domain\TrxInf.cs" />
-    <Compile Include="Proxy\PrepaidPaymentProxy.cs" />
+    <Compile Include="Proxy\Service\IBillInquiry.cs" />
     <Compile Include="Proxy\Service\IBillPaymentService.cs" />
     <Compile Include="AuthenticateTokenProvider.cs" />
     <Compile Include="Proxy\Service\IPrepaidPaymentService.cs" />
     <Compile Include="Proxy\Service\ITokenService.cs" />
-    <Compile Include="Proxy\BillPaymentProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="gateway_configuration.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Proxy\billInquiry.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

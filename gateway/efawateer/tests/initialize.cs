@@ -1,14 +1,17 @@
-﻿using System;
+﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EfawateerTests
 {
-    [TestClass, Ignore]
+    [TestClass]
     public class initialize
     {
         [TestMethod]
-        public void TestMethod1()
+        public void init()
         {
+            var gate = new Gateways.EfawateerGateway();
+
+            gate.Initialize(File.ReadAllText("initialize.xml"));
         }
     }
 }
