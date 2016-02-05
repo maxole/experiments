@@ -9,7 +9,6 @@
     <password hint="пароль клиента">Test@1234</password>
     <!-- сертификат должен быть импортирован с ключом "Mark this key as exportable." сделать ключ экспортируемым ...-->
     <crt hint="наименование сертификата (friendly name)">ARKAIM-TEST</crt>
-    <biller_code hint="">39</biller_code>
    
     <detail_log hint="детальный лог">true</detail_log>
     

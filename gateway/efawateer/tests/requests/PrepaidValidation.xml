@@ -16,7 +16,8 @@
       </AcctInfo>
       <DueAmt>13.0</DueAmt>
       <ServiceTypeDetails>
-        <ServiceType>Mobile</ServiceType>
+        <ServiceType>Mobilecard</ServiceType>
+        <PrepaidCat>mobile_1</PrepaidCat>
       </ServiceTypeDetails>    
     </BillingInfo>
   </MsgBody>

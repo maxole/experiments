@@ -18,7 +18,6 @@ namespace Gateways
         private string _customerCode;
         private string _password;
         private string _certificate;
-        private string _billerCode;
 
         private string _tokenUrl;
         private string _inquiryUrl;
@@ -38,7 +37,6 @@ namespace Gateways
             _customerCode = gateway._customerCode;
             _password = gateway._password;
             _certificate = gateway._certificate;
-            _billerCode = gateway._billerCode;
 
             _tokenUrl = gateway._tokenUrl;
             _inquiryUrl = gateway._inquiryUrl;
@@ -65,7 +63,6 @@ namespace Gateways
                 _customerCode = xmlData.DocumentElement["customer_code"].InnerText;
                 _password = xmlData.DocumentElement["password"].InnerText;
                 _certificate = xmlData.DocumentElement["crt"].InnerText;
-                _billerCode = xmlData.DocumentElement["biller_code"].InnerText;
 
                 if (xmlData.DocumentElement["detail_log"] != null &&
                     (xmlData.DocumentElement["detail_log"].InnerText.ToLower() == "true" ||
@@ -147,7 +144,7 @@ namespace Gateways
                 var acctInfo = trxInfo.Element("AcctInfo");
                 acctInfo.Element("BillingNo").Value = parametersList["billingno"];
                 acctInfo.Element("BillNo").Value = parametersList["billingno"];
-                acctInfo.Element("BillerCode").Value = _billerCode;
+                acctInfo.Element("BillerCode").Value = parametersList["billingcode"];
 
                 trxInfo.Element("BankTrxID").Value = session;
                 trxInfo.Element("DueAmt").Value = amount.ToString(CultureInfo.InvariantCulture);
@@ -231,7 +228,7 @@ namespace Gateways
                 request.Element("MsgHeader").Element("TmStp").Value = DateTime.Now.ToString("s");
                 request.Element("MsgHeader").Element("TrsInf").Element("SdrCode").Value = _customerCode;
                 request.Element("MsgBody").Element("AcctInfo").Element("BillingNo").Value = parametersList["billingno"];
-                request.Element("MsgBody").Element("AcctInfo").Element("BillerCode").Value = _billerCode;
+                request.Element("MsgBody").Element("AcctInfo").Element("BillerCode").Value = parametersList["billingcode"];
                 request.Element("MsgFooter").Element("Security").Element("Signature").Value = signer.SignData(request.Element("MsgBody").ToString());
 
                 if (_detailLogEnabled)

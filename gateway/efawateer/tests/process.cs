@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Gateways;
@@ -37,12 +38,12 @@ namespace EfawateerTests
             paymentTbl["TerminalID"] = 10;
             paymentTbl["StatusID"] = 1;
             paymentTbl["ErrorCode"] = 0;
-            paymentTbl["Params"] = "billingno=25;";
+            paymentTbl["Params"] = "billingno=25\\nbillingcode=39";
             paymentTbl["Amount"] = 10;
             paymentTbl["AmountAll"] = 10;
 
             var operatorTbl = _operatorTable.NewRow();
-            operatorTbl["OsmpFormatString"] = "billingno=[#billingno]";
+            operatorTbl["OsmpFormatString"] = "billingno=[#billingno];billingcode=[#billingcode];";
 
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
@@ -54,11 +55,11 @@ namespace EfawateerTests
         {
             var data = new NewPaymentData
             {
-                Params = "billingno=25;"
+                Params = "billingno=25\\nbillingcode=39"
             };
 
             var row = _operatorTable.NewRow();
-            row["OsmpFormatString"] = "billingno=[#billingno]";
+            row["OsmpFormatString"] = "billingno=[#billingno];billingcode=[#billingcode];";
 
             var gate = new Gateways.EfawateerGateway();
 
@@ -72,11 +73,11 @@ namespace EfawateerTests
         {
             var data = new NewPaymentData
             {
-                Params = "billingno=25;"
+                Params = "billingno=25\\nbillingcode=39"
             };
 
             var row = _operatorTable.NewRow();
-            row["OsmpFormatString"] = "billingno=[#billingno]";
+            row["OsmpFormatString"] = "billingno=[#billingno];billingcode=[#billingcode];";
 
             var gate = new Gateways.EfawateerGateway();
 
@@ -93,12 +94,12 @@ namespace EfawateerTests
             paymentTbl["TerminalID"] = 10;
             paymentTbl["StatusID"] = 1;
             paymentTbl["ErrorCode"] = 0;
-            paymentTbl["Params"] = "billingno=25;";
-            paymentTbl["Amount"] = Convert.ToDouble(q);
-            paymentTbl["AmountAll"] = Convert.ToDouble(q);
+            paymentTbl["Params"] = "billingno=25\\nbillingcode=39";            
+            paymentTbl["Amount"] = Convert.ToDouble(q, CultureInfo.InvariantCulture);
+            paymentTbl["AmountAll"] = Convert.ToDouble(q, CultureInfo.InvariantCulture);
 
             var operatorTbl = _operatorTable.NewRow();
-            operatorTbl["OsmpFormatString"] = "billingno=[#billingno]";
+            operatorTbl["OsmpFormatString"] = "billingno=[#billingno];billingcode=[#billingcode];";
             
             gate.ProcessPayment(paymentTbl, operatorTbl, null);
         }
