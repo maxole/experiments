@@ -1,6 +1,6 @@
 ﻿<MFEP>
   <MsgHeader>
-    <TmStp>2016-01-21T14:38:24</TmStp>
+    <TmStp>?</TmStp>
     <GUID>?</GUID>
     <TrsInf>
       <SdrCode>158</SdrCode>
@@ -12,12 +12,11 @@
     <BillingInfo>
       <AcctInfo>
         <BillingNo>0712312356</BillingNo>
-        <BillerCode>39</BillerCode>
+        <BillerCode>?</BillerCode>
       </AcctInfo>
       <DueAmt>13.0</DueAmt>
       <ServiceTypeDetails>
-        <ServiceType>Mobilecard</ServiceType>
-        <PrepaidCat>mobile_1</PrepaidCat>
+        <ServiceType>?</ServiceType>
       </ServiceTypeDetails>    
     </BillingInfo>
   </MsgBody>
