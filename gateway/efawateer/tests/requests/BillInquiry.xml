@@ -10,9 +10,9 @@
   <MsgBody>
     <AcctInfo>
       <BillingNo>22134423S</BillingNo>
-      <BillerCode>39</BillerCode>
+      <BillerCode>26</BillerCode>
     </AcctInfo>
-    <ServiceType>Electricity</ServiceType>
+    <ServiceType>FixedLine</ServiceType>
   </MsgBody>
   <MsgFooter>
     <Security>
