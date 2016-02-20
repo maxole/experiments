@@ -1,8 +1,13 @@
 ﻿<gateway id="909" name="eFAWATEER" file="EfawateerGateway.dll" type="Gateways.EfawateerGateway">
   <template>        
-    <token_url hint="Url запроса аутентификация">http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc</token_url>    
-    <inquiry_url hint="Url запроса получение реквизитов счета">http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc</inquiry_url>    
+    <token_url hint="Url запроса аутентификация">http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc</token_url>                
+    
+    <prepare_validation_url hint="проверка возможности оплаты">http://cbj-pres-test.e-fawateer.com.jo:6018/PrepaidValidation.svc</prepare_validation_url>
+    <inquiry_url hint="Url запроса получение реквизитов счета">http://cbj-pres-test.e-fawateer.com.jo:6004/BillInquiry.svc</inquiry_url>
+    <prepaid_payment_url hint="">http://cbj-pres-test.e-fawateer.com.jo:6017/PrepaidPayment.svc</prepaid_payment_url>
     <payment_url hint="Url запроса оплата">http://cbj-pres-test.e-fawateer.com.jo:6003/BillPayment.svc</payment_url>
+
+    <startdt hint="Количество дней назад для запроса счетов">10</startdt>
 
     <!--(предоставляется eFAWATEER)-->
     <customer_code hint="код клиента">158</customer_code>    

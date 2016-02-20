@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Gateways;
+using Gateways.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EfawateerTests
@@ -43,7 +44,7 @@ namespace EfawateerTests
             paymentTbl["AmountAll"] = 10;
 
             var operatorTbl = _operatorTable.NewRow();
-            operatorTbl["OsmpFormatString"] = "billingno=[#billingno];billingcode=[#billingcode];";
+            operatorTbl["OsmpFormatString"] = "PymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];PrepaidCat=[#ACCOUNT];DueAmt=[#AMOUNT]";
 
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
@@ -102,6 +103,28 @@ namespace EfawateerTests
             operatorTbl["OsmpFormatString"] = "billingno=[#billingno];billingcode=[#billingcode];";
             
             gate.ProcessPayment(paymentTbl, operatorTbl, null);
+        }
+
+        [TestMethod]
+        public void prepaid_validation_service_type_request()
+        {
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+
+            var list = new StringList("ServiceType=Prepaid",";");
+
+            var request = gate.PrepaidValidationRequest(700039, list);
+        }
+
+        [TestMethod]
+        public void bill_inquiry_request()
+        {
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+
+            var list = new StringList("BillingNo=9010020304;ServiceType=Electricity", ";");
+
+            var request = gate.BillInquiryRequest(700039, list);
         }
     }
 }

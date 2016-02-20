@@ -185,7 +185,7 @@ namespace EfawateerTests
             request.Element("MsgHeader").Element("TmStp").Value = time;
             request.Element("MsgHeader").Element("GUID").Value = guid;
             request.Element("MsgBody").Element("BillingInfo").Element("AcctInfo").Element("BillerCode").Value = "21";
-            request.Element("MsgBody").Element("BillingInfo").Element("ServiceTypeDetails").Element("ServiceType").Value = "Paid";
+            request.Element("MsgBody").Element("BillingInfo").Element("ServiceTypeDetails").Element("ServiceType").Value = "Prepaid";
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 sign.SignData(request.Element("MsgBody").ToString());
 

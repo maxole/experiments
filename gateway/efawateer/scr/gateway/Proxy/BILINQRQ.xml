@@ -11,8 +11,14 @@
     <AcctInfo>
       <BillingNo>?</BillingNo>
       <BillerCode>?</BillerCode>
-    </AcctInfo>
-    <ServiceType>Electricity</ServiceType>
+    </AcctInfo>    
+    <ServiceType>?</ServiceType>
+    <DateRange>
+      <StartDt>?</StartDt>
+      <EndDt>?</EndDt>
+    </DateRange>
+    <IncPayments>false</IncPayments>
+    <IncPaidBills>false</IncPaidBills>
   </MsgBody>
   <MsgFooter>
     <Security>

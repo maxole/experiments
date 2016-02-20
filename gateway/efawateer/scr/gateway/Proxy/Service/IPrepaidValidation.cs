@@ -1,4 +1,4 @@
-﻿namespace EfawateerTests.Proxy
+﻿namespace EfawateerGateway.Proxy.Service
 {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName = "PrepaidValidation.IPrepaidValidation")]
