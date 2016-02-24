@@ -126,5 +126,40 @@ namespace EfawateerTests
 
             var request = gate.BillInquiryRequest(700039, list);
         }
+
+        [TestMethod]
+        public void bill_payment_request()
+        {
+
+            var session = Guid.NewGuid().ToString();
+
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+
+            var list = new StringList("BillingNo=9010020304;ServiceType=Electricity", ";");
+
+            var request = gate.BillInquiryRequest(700039, list);
+            var dueAmt = request["DueAmt"];
+
+            list = new StringList(string.Format("BillingNo=9010020304;ServiceType=Electricity;DueAmt={0}", dueAmt), ";");
+
+            var response = gate.BillPaymentRequest(700039, list, session);
+
+            Assert.AreEqual(0, response.Error);
+        }
+
+        [TestMethod]
+        public void prepaid_payment_request()
+        {
+            var session = Guid.NewGuid().ToString();
+
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+
+            var list = new StringList("BillingNo=9010020304;ServiceType=Electricity;DueAmt=43.12;ValidationCode=1234567", ";");
+            var response = gate.PrepaidPaymentRequest(700039, list, session);
+
+            Assert.AreEqual(0, response.Error);
+        }
     }
 }

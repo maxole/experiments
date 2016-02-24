@@ -3,7 +3,7 @@
     <TmStp>?</TmStp>
     <GUID>?</GUID>
     <TrsInf>
-      <SdrCode>158</SdrCode>
+      <SdrCode>?</SdrCode>
       <RcvCode>1</RcvCode>
       <ReqTyp>PREPADPMTRQ</ReqTyp>
     </TrsInf>
@@ -11,14 +11,14 @@
   <MsgBody>
     <TrxInf>
       <AcctInfo>
-        <BillingNo>0712312356</BillingNo>
-        <BillerCode>21</BillerCode>
+        <BillingNo>?</BillingNo>
+        <BillerCode>?</BillerCode>
       </AcctInfo>
       <BankTrxID>?</BankTrxID>
-      <ValidationCode>75353</ValidationCode>
+      <ValidationCode>?</ValidationCode>
       <PmtStatus>PmtNew</PmtStatus>
-      <DueAmt>13.0</DueAmt>
-      <PaidAmt>13.0</PaidAmt>
+      <DueAmt>?</DueAmt>
+      <PaidAmt>?</PaidAmt>
       <ProcessDate>?</ProcessDate>
       <AccessChannel>ATM</AccessChannel>
       <PaymentMethod>CASH</PaymentMethod>

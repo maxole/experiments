@@ -27,7 +27,10 @@ namespace EfawateerTests
         {
 
             var binding = new WSHttpBinding(SecurityMode.None, true);
-            var client = new BillersListClient(binding, new EndpointAddress(UriContext.BillersList));
+            binding.ReceiveTimeout = new TimeSpan(0, 5, 0);
+            binding.SendTimeout = new TimeSpan(0, 5, 0);
+            binding.OpenTimeout = new TimeSpan(0, 5, 0);
+            var client = new BillersListClient(binding, new EndpointAddress(UriContext.BillersList));            
             var list = client.GetBillersList(Guid.NewGuid().ToString(), GetToken());
 
             Debug.WriteLine("BillerList " + list);

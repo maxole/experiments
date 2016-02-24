@@ -57,6 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\Service\IBillInquiry.cs" />
     <Compile Include="Proxy\Service\IBillPaymentService.cs" />
+    <Compile Include="Proxy\Service\IPayment.cs" />
+    <Compile Include="Proxy\Service\IPaymentInquiry.cs" />
+    <Compile Include="Proxy\Service\IPrepaidPayment.cs" />
     <Compile Include="Proxy\Service\IPrepaidValidation.cs" />
     <Compile Include="Proxy\Service\ITokenService.cs" />
   </ItemGroup>
@@ -69,10 +72,16 @@
     <EmbeddedResource Include="Proxy\BILINQRQ.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Proxy\billPayment.xml" />
+    <EmbeddedResource Include="Proxy\BILPMTRQ.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Proxy\PREPADVALRQ.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Proxy\PREPADPMTRQ.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Proxy\PMTINQRQ.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
