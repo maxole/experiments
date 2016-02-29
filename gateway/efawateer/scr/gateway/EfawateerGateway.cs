@@ -157,7 +157,9 @@ namespace Gateways
                 //101;Платеж был проведен, не получен статус (таймаут)
                 if (status == 101)
                 {
-                    PaymentInquiryRequest(cyberplatOperatorId, parametersList);
+                    var result = PaymentInquiryRequest(cyberplatOperatorId, parametersList, session);
+                    PreprocessPaymentStatus(ap, session, EfawateerCodeToCyberCode(result.Error),
+                        result.Error == 0 ? 100 : status, exData);
                     return;
                 }
 
@@ -208,8 +210,10 @@ namespace Gateways
                     session = paymentResult.JoebppsTrx;
 #if !TEST
                 UpdateExtraSession(ap, initial_session, session, exData);
-#endif                    
+                UpdatePaymentParams(ap, session, parametersList.Strings, exData);
+#endif
                 }
+                
             }
             catch (Exception ex)
             {
@@ -217,9 +221,64 @@ namespace Gateways
             }
         }
 
-        private void PaymentInquiryRequest(int cyberplatOperatorId, StringList parametersList)
+        public PaymentResult PaymentInquiryRequest(int cyberplatOperatorId, StringList parametersList, string session)
         {
-            throw new NotImplementedException();
+            var result = new PaymentResult
+            {
+                Error = 0
+            };
+
+            var billerCode = ExpandBillerCodeFromCyberplatOpertaroId(cyberplatOperatorId);
+
+            var token = Authenticate();
+            var request = GetRequestContent(Pmtinqrq);
+            var signer = new EfawateerSigner(_certificate);
+
+            var now = DateTime.Now;
+            var time = now.ToString("s");
+            var guid = GenerateGuid();
+
+            request.Element("MsgHeader").Element("TmStp").Value = time;
+            request.Element("MsgHeader").Element("TrsInf").Element("SdrCode").Value = _customerCode;
+
+            var trxInf = request.Element("MsgBody").Element("Transactions").Element("TrxInf");
+
+            trxInf.Element("PmtGuid").Value = session;
+            trxInf.Element("ParTrxID").Value = session;
+
+            if (parametersList.ContainsKey("ValidationCode"))
+                trxInf.Element("ValidationCode").Value = parametersList["ValidationCode"];
+            else
+                trxInf.Element("ValidationCode").Remove();
+
+            trxInf.Element("DueAmt").Value = parametersList["DueAmt"];
+            trxInf.Element("PaidAmt").Value = parametersList["DueAmt"];
+            trxInf.Element("ProcessDate").Value = time;
+            trxInf.Element("PaymentType").Value = parametersList["PaymentType"];
+            trxInf.Element("ServiceTypeDetails").Element("ServiceType").Value = parametersList["ServiceType"];
+
+            trxInf.Element("ServiceTypeDetails").Element("PrepaidCat").Remove();
+
+            var accInfo = trxInf.Element("AcctInfo");
+            accInfo.Element("BillingNo").Value = parametersList["BillingNo"];
+            accInfo.Element("BillNo").Value = parametersList["BillingNo"];
+            accInfo.Element("BillerCode").Value = billerCode.ToString(CultureInfo.InvariantCulture);
+
+            audit("Inquiry request:" + request);
+
+            request.Element("MsgFooter").Element("Security").Element("Signature").Value =
+                signer.SignData(request.Element("MsgBody").ToString());
+
+            var service = new PrepaidValidationClient(new WSHttpBinding(SecurityMode.None, true),
+                new EndpointAddress(_validationUrl));
+            var response = service.Validate(guid, token, request);
+
+            audit("Inquiry response:" + response);
+
+            trxInf = response.Element("MsgBody").Element("TrxInf");
+            result.Error = Convert.ToInt32(trxInf.Element("Result").Element("ErrorCode").Value);            
+
+            return result;
         }
 
         public override string ProcessOnlineCheck(NewPaymentData paymentData, object operatorData)

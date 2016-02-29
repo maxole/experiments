@@ -111,9 +111,9 @@ namespace EfawateerTests
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
 
-            var list = new StringList("ServiceType=Prepaid",";");
+            var list = new StringList("ServiceType=Prepaid;BillingNo=9010020304;DueAmt=43.12", ";");
 
-            var request = gate.PrepaidValidationRequest(700039, list);
+            var request = gate.PrepaidValidationRequest(700162, list);
         }
 
         [TestMethod]
@@ -156,8 +156,22 @@ namespace EfawateerTests
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
 
-            var list = new StringList("BillingNo=9010020304;ServiceType=Electricity;DueAmt=43.12;ValidationCode=1234567", ";");
-            var response = gate.PrepaidPaymentRequest(700039, list, session);
+            var list = new StringList("BillingNo=9010020304;ServiceType=Prepaid;DueAmt=43.12;ValidationCode=1234567", ";");
+            var response = gate.PrepaidPaymentRequest(700162, list, session);
+
+            Assert.AreEqual(0, response.Error);
+        }
+
+        [TestMethod]
+        public void payment_inquiry_request()
+        {
+            var session = Guid.NewGuid().ToString();
+
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+
+            var list = new StringList("BillingNo=9010020304;ServiceType=Prepaid;DueAmt=43.12;ValidationCode=1234567;PaymentType=Prepaid", ";");
+            var response = gate.PaymentInquiryRequest(700039, list, session);
 
             Assert.AreEqual(0, response.Error);
         }

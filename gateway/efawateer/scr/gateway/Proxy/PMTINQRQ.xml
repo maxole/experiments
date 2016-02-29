@@ -26,6 +26,7 @@
         <PaymentType>PmtNew</PaymentType>
         <ServiceTypeDetails>
           <ServiceType>NCRC</ServiceType>
+          <PrepaidCat>?</PrepaidCat>
         </ServiceTypeDetails>
       </TrxInf>
     </Transactions>

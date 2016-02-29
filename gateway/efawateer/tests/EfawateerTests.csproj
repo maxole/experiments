@@ -85,6 +85,7 @@
     <Compile Include="Proxy\IPrepaidValidation.cs" />
     <Compile Include="Proxy\ITokenService.cs" />
     <Compile Include="manual_test_all_service.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="UriContext.cs" />
   </ItemGroup>
   <ItemGroup>
