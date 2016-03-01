@@ -45,12 +45,15 @@ namespace Gateways
         private string _paymentUrl;
         private string _prepaidUrl;
         private string _validationUrl;
+        private string _paymentInquryUrl;
 
         private const string Bilinqrq = "BILINQRQ";
         private const string Bilpmtrq = "BILPMTRQ";
         private const string Prepadvalrq = "PREPADVALRQ";
         private const string Prepadpmtrq = "PREPADPMTRQ";
         private const string Pmtinqrq = "PMTINQRQ";
+
+        private int _timeout = 5000;
 
         private int _startdt;
 
@@ -71,7 +74,9 @@ namespace Gateways
             _paymentUrl = gateway._paymentUrl;
             _prepaidUrl = gateway._prepaidUrl;
             _validationUrl = gateway._validationUrl;
+            _paymentInquryUrl = gateway._paymentInquryUrl;
 
+            _timeout = gateway._timeout;
             _startdt = gateway._startdt;
 
             // base copy
@@ -92,11 +97,13 @@ namespace Gateways
                 _paymentUrl = xmlData.DocumentElement["payment_url"].InnerText;
                 _prepaidUrl = xmlData.DocumentElement["prepaid_payment_url"].InnerText;
                 _validationUrl = xmlData.DocumentElement["prepare_validation_url"].InnerText;
+                _paymentInquryUrl = xmlData.DocumentElement["payment_inqury_url"].InnerText;
 
                 _customerCode = xmlData.DocumentElement["customer_code"].InnerText;
                 _password = xmlData.DocumentElement["password"].InnerText;
                 _certificate = xmlData.DocumentElement["crt"].InnerText;
 
+                _timeout = Convert.ToInt32(xmlData.DocumentElement["timeout"].InnerText);
                 _startdt = Convert.ToInt32(xmlData.DocumentElement["startdt"].InnerText);
 
                 if (xmlData.DocumentElement["detail_log"] != null &&
@@ -269,9 +276,11 @@ namespace Gateways
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
 
-            var service = new PrepaidValidationClient(new WSHttpBinding(SecurityMode.None, true),
-                new EndpointAddress(_validationUrl));
-            var response = service.Validate(guid, token, request);
+            var service = new PaymentInquiryClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            }, new EndpointAddress(_paymentInquryUrl));
+            var response = service.Inquire(guid, token, request);
 
             audit("Inquiry response:" + response);
 
@@ -363,8 +372,10 @@ namespace Gateways
             if (!AuthenticateTokenProvider.Current.IsExpired)
                 return AuthenticateTokenProvider.Current.TokenKey;
 
-            var token = new TokenServiceClient(new WSHttpBinding(SecurityMode.None, true),
-                new EndpointAddress(_tokenUrl));
+            var token = new TokenServiceClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            },new EndpointAddress(_tokenUrl));
             var authenticate = token.Authenticate(GenerateGuid(), Convert.ToInt32(_customerCode), _password);
 
             audit("Authenticate" + authenticate);
@@ -448,8 +459,10 @@ namespace Gateways
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
 
-            var service = new PrepaidValidationClient(new WSHttpBinding(SecurityMode.None, true),
-                new EndpointAddress(_validationUrl));
+            var service = new PrepaidValidationClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            },new EndpointAddress(_validationUrl));
             var response = service.Validate(guid, token, request);
 
             audit("Validation response:" + response);
@@ -516,8 +529,10 @@ namespace Gateways
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
 
-            var service = new PrepaidPaymentClient(new WSHttpBinding(SecurityMode.None, true),
-                new EndpointAddress(_prepaidUrl));
+            var service = new PrepaidPaymentClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            },new EndpointAddress(_prepaidUrl));
             var response = service.Pay(guid, token, request);
 
             audit("Inquire response:" + response);
@@ -559,8 +574,10 @@ namespace Gateways
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
 
-            var service = new BillInquiryClient(new WSHttpBinding(SecurityMode.None, true),
-                new EndpointAddress(_inquiryUrl));
+            var service = new BillInquiryClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            },new EndpointAddress(_inquiryUrl));
             var response = service.Inquire(guid, token, request);
 
             audit("Inquire response:" + response);
@@ -661,8 +678,10 @@ namespace Gateways
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
 
-            var service = new PaymentClient(new WSHttpBinding(SecurityMode.None, true),
-                new EndpointAddress(_paymentUrl));
+            var service = new PaymentClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            },new EndpointAddress(_paymentUrl));
             var response = service.PayBill(guid, token, request);
 
             audit("Inquire response:" + response);
