@@ -15,7 +15,7 @@ using Gateways.Utils;
 namespace Gateways
 // ReSharper restore CheckNamespace
 {
-    public class EfawateerGateway : BaseGateway, IGateway
+    public class EfawateerGateway : BaseGateway, IGateway, IGateGetData
     {
 
         private enum PaymentType
@@ -46,6 +46,7 @@ namespace Gateways
         private string _prepaidUrl;
         private string _validationUrl;
         private string _paymentInquryUrl;
+        private string _billerList;
 
         private const string Bilinqrq = "BILINQRQ";
         private const string Bilpmtrq = "BILPMTRQ";
@@ -75,6 +76,7 @@ namespace Gateways
             _prepaidUrl = gateway._prepaidUrl;
             _validationUrl = gateway._validationUrl;
             _paymentInquryUrl = gateway._paymentInquryUrl;
+            _billerList = gateway._billerList;
 
             _timeout = gateway._timeout;
             _startdt = gateway._startdt;
@@ -85,7 +87,7 @@ namespace Gateways
 
         public void Initialize(string data)
         {
-            audit("Initialize, GateProfileID=" + GateProfileID);
+            Audit("Initialize, GateProfileID=" + GateProfileID);
 
             try
             {
@@ -98,6 +100,7 @@ namespace Gateways
                 _prepaidUrl = xmlData.DocumentElement["prepaid_payment_url"].InnerText;
                 _validationUrl = xmlData.DocumentElement["prepare_validation_url"].InnerText;
                 _paymentInquryUrl = xmlData.DocumentElement["payment_inqury_url"].InnerText;
+                _billerList = xmlData.DocumentElement["biller_list_url"].InnerText;
 
                 _customerCode = xmlData.DocumentElement["customer_code"].InnerText;
                 _password = xmlData.DocumentElement["password"].InnerText;
@@ -117,14 +120,14 @@ namespace Gateways
             }
             catch (Exception ex)
             {
-                audit("Initialize exception: " + ex);
+                Audit("Initialize exception: " + ex);
             }
         }
 
         public void ProcessPayment(object paymentData, object operatorData, object exData)
         {
             var initial_session = string.Empty;
-            audit("Efawateer processing...");
+            Audit("Efawateer processing...");
 
             try
             {
@@ -224,7 +227,7 @@ namespace Gateways
             }
             catch (Exception ex)
             {
-                audit(string.Format("ProcessPayment (initial_session={0}) exception: {1}", initial_session, ex.Message));
+                Audit(string.Format("ProcessPayment (initial_session={0}) exception: {1}", initial_session, ex.Message));
             }
         }
 
@@ -271,7 +274,7 @@ namespace Gateways
             accInfo.Element("BillNo").Value = parametersList["BillingNo"];
             accInfo.Element("BillerCode").Value = billerCode.ToString(CultureInfo.InvariantCulture);
 
-            audit("Inquiry request:" + request);
+            Audit("Inquiry request:" + request);
 
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
@@ -282,7 +285,7 @@ namespace Gateways
             }, new EndpointAddress(_paymentInquryUrl));
             var response = service.Inquire(guid, token, request);
 
-            audit("Inquiry response:" + response);
+            Audit("Inquiry response:" + response);
 
             trxInf = response.Element("MsgBody").Element("TrxInf");
             result.Error = Convert.ToInt32(trxInf.Element("Result").Element("ErrorCode").Value);            
@@ -323,7 +326,7 @@ namespace Gateways
             }
             catch (Exception ex)
             {
-                audit("ProcessOnlineCheck exception: " + ex.Message);
+                Audit("ProcessOnlineCheck exception: " + ex.Message);
                 responseResult = 30;
             }
 
@@ -378,7 +381,7 @@ namespace Gateways
             },new EndpointAddress(_tokenUrl));
             var authenticate = token.Authenticate(GenerateGuid(), Convert.ToInt32(_customerCode), _password);
 
-            audit("Authenticate" + authenticate);
+            Audit("Authenticate" + authenticate);
 
             var body = authenticate.Element("MsgBody");
             if (body == null)
@@ -454,7 +457,7 @@ namespace Gateways
                 billInfo.Element("DueAmt").Value = parametersList["DueAmt"];
 
 
-            audit("Validation request:" + request);
+            Audit("Validation request:" + request);
 
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
@@ -465,7 +468,7 @@ namespace Gateways
             },new EndpointAddress(_validationUrl));
             var response = service.Validate(guid, token, request);
 
-            audit("Validation response:" + response);
+            Audit("Validation response:" + response);
 
             billInfo = response.Element("MsgBody").Element("BillingInfo");
 
@@ -524,7 +527,7 @@ namespace Gateways
             trxInf.Element("ProcessDate").Value = time;
             trxInf.Element("BankTrxID").Value = session;
 
-            audit("Inquire request:" + request);
+            Audit("Inquire request:" + request);
 
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
@@ -535,7 +538,7 @@ namespace Gateways
             },new EndpointAddress(_prepaidUrl));
             var response = service.Pay(guid, token, request);
 
-            audit("Inquire response:" + response);
+            Audit("Inquire response:" + response);
 
             trxInf = response.Element("MsgBody").Element("TrxInf");
             result.Error = Convert.ToInt32(trxInf.Element("Result").Element("ErrorCode").Value);
@@ -569,7 +572,7 @@ namespace Gateways
             dateRange.Element("StartDt").Value = now.AddDays(-_startdt).ToString("s");
             dateRange.Element("EndDt").Value = time;
 
-            audit("Inquire request:" + request);
+            Audit("Inquire request:" + request);
 
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
@@ -580,7 +583,7 @@ namespace Gateways
             },new EndpointAddress(_inquiryUrl));
             var response = service.Inquire(guid, token, request);
 
-            audit("Inquire response:" + response);
+            Audit("Inquire response:" + response);
 
             var errorCode = Convert.ToInt32(response.Element("MsgHeader").Element("Result").Element("ErrorCode").Value);
 
@@ -673,7 +676,7 @@ namespace Gateways
             trxInf.Element("ProcessDate").Value = time;
             trxInf.Element("BankTrxID").Value = session;
 
-            audit("Inquire request:" + request);
+            Audit("Inquire request:" + request);
 
             request.Element("MsgFooter").Element("Security").Element("Signature").Value =
                 signer.SignData(request.Element("MsgBody").ToString());
@@ -684,7 +687,7 @@ namespace Gateways
             },new EndpointAddress(_paymentUrl));
             var response = service.PayBill(guid, token, request);
 
-            audit("Inquire response:" + response);
+            Audit("Inquire response:" + response);
 
             trxInf = response.Element("MsgBody").Element("Transactions").Element("TrxInf");
             result.Error = Convert.ToInt32(trxInf.Element("Result").Element("ErrorCode").Value);
@@ -698,7 +701,7 @@ namespace Gateways
             return result;
         }
 
-        private void audit(string message)
+        private void Audit(string message)
         {
 #if !TEST
             if (_detailLogEnabled)
@@ -706,6 +709,18 @@ namespace Gateways
 #else
             System.Diagnostics.Debug.WriteLine(message);
 #endif
+        }
+
+        public string GetData(string request, string parameters)
+        {
+            var token = Authenticate();
+
+            var client = new BillersListClient(new WSHttpBinding(SecurityMode.None, true)
+            {
+                ReceiveTimeout = new TimeSpan(0, 0, 0, 0, _timeout)
+            }, new EndpointAddress(_billerList));
+            var list = client.GetBillersList(Guid.NewGuid().ToString(), token);
+            return list.ToString();
         }
     }
 }

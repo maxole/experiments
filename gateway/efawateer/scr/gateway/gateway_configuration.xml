@@ -7,7 +7,8 @@
     <prepaid_payment_url hint="">http://cbj-pres-test.e-fawateer.com.jo:6017/PrepaidPayment.svc</prepaid_payment_url>
     <payment_url hint="Url запроса оплата">http://cbj-pres-test.e-fawateer.com.jo:6003/BillPayment.svc</payment_url>
     <payment_inqury_url>http://cbj-pres-test.e-fawateer.com.jo:6019/PaymentInquiry.svc</payment_inqury_url>
-
+    <biller_list_url>http://cbj-pres-test.e-fawateer.com.jo:6010/BillersList.svc</biller_list_url>
+    
     <timeout>10000</timeout>
     <startdt hint="Количество дней назад для запроса счетов">10</startdt>
 

@@ -3,7 +3,7 @@
     public static class UriContext
     {
         public const string Authenticate =       "http://cbj-pres-test.e-fawateer.com.jo:6001/Token.svc";
-        public const string BillersList =        "http://cbj-pres-test.e-fawateer.com.jo:6010/BillersList.svc";
+        public const string BillersList =        "http://cbj-pres-test.e-fawateer.com.jo:6000/BillersList.svc";
         public const string AccountUpload =      "http://cbj-pres-test.e-fawateer.com.jo:6009/AccountUpload.svc";
         public const string AccountInquiry =     "http://cbj-pres-test.e-fawateer.com.jo:6008/AccountInquiry.svc";
         public const string AddCustomerBilling = "http://cbj-pres-test.e-fawateer.com.jo:6006/AddCustomerBilling.svc";

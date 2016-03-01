@@ -170,7 +170,7 @@ namespace EfawateerTests
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
 
-            var list = new StringList("BillingNo=9010020304;ServiceType=Prepaid;DueAmt=43.12;ValidationCode=1234567;PaymentType=Prepaid", ";");
+            var list = new StringList("BillingNo=9010020304;ServiceType=Electricity;DueAmt=43.12;ValidationCode=1234567;PaymentType=Prepaid", ";");
             var response = gate.PaymentInquiryRequest(700039, list, session);
 
             Assert.AreEqual(0, response.Error);
