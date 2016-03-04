@@ -18,6 +18,6 @@
   <!-- сертификат должен быть импортирован с ключом "Mark this key as exportable." сделать ключ экспортируемым ...-->
   <crt hint="наименование сертификата (friendly name)">ARKAIM-TEST</crt>
 
-  <detail_log hint="детальный лог">true</detail_log>
+  <detail_log hint="детальный лог">false</detail_log>
 
 </template>

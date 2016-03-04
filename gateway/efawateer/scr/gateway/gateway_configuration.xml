@@ -19,6 +19,6 @@
     <crt hint="наименование сертификата (friendly name)">ARKAIM-TEST</crt>
    
     <detail_log hint="детальный лог">true</detail_log>
-    
+    <info>true</info>
   </template>
 </gateway>

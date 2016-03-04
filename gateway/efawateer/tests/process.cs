@@ -27,6 +27,7 @@ namespace EfawateerTests
             _paymentTable.Columns.Add(new DataColumn("Params", typeof(string)));
             _paymentTable.Columns.Add(new DataColumn("Amount", typeof(double)));
             _paymentTable.Columns.Add(new DataColumn("AmountAll", typeof(double)));
+            _paymentTable.Columns.Add(new DataColumn("CyberplatOperatorID", typeof(int)));
 
             _operatorTable = new DataTable();
             _operatorTable.Columns.Add(new DataColumn("OsmpFormatString", typeof(string)));
@@ -36,15 +37,17 @@ namespace EfawateerTests
         public void ProcessPayment()
         {
             var paymentTbl = _paymentTable.NewRow();
-            paymentTbl["TerminalID"] = 10;
-            paymentTbl["StatusID"] = 1;
+            paymentTbl["TerminalID"] = 100000;
+            paymentTbl["StatusID"] = 0;
             paymentTbl["ErrorCode"] = 0;
-            paymentTbl["Params"] = "billingno=25\\nbillingcode=39";
-            paymentTbl["Amount"] = 10;
-            paymentTbl["AmountAll"] = 10;
+            //paymentTbl["Params"] = "NUMBER=12\\nSERVICETYPE=Electricity\\nPAYMENTTYPE=Postpaid\\n";
+            paymentTbl["Params"] = "PaymentType=Postpaid\nBillingNo=12\nServiceType=Electricity\n";
+            paymentTbl["Amount"] = 3;
+            paymentTbl["AmountAll"] = 3;
+            paymentTbl["CyberplatOperatorID"] = 700021;
 
             var operatorTbl = _operatorTable.NewRow();
-            operatorTbl["OsmpFormatString"] = "PymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];PrepaidCat=[#ACCOUNT];DueAmt=[#AMOUNT]";
+            operatorTbl["OsmpFormatString"] = "PaymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];DueAmt=[#AMOUNT]";
 
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
@@ -174,6 +177,14 @@ namespace EfawateerTests
             var response = gate.PaymentInquiryRequest(700039, list, session);
 
             Assert.AreEqual(0, response.Error);
+        }
+
+        [TestMethod]
+        public void get_data()
+        {
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+            var data = gate.GetData("", "");
         }
     }
 }
