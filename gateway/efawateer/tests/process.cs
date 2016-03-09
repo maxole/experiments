@@ -34,17 +34,78 @@ namespace EfawateerTests
         }
 
         [TestMethod, Description("Ручная проверка")]
-        public void ProcessPayment()
+        public void prepaid_full_circle()
         {
             var paymentTbl = _paymentTable.NewRow();
             paymentTbl["TerminalID"] = 100000;
             paymentTbl["StatusID"] = 0;
             paymentTbl["ErrorCode"] = 0;
-            //paymentTbl["Params"] = "NUMBER=12\\nSERVICETYPE=Electricity\\nPAYMENTTYPE=Postpaid\\n";
-            paymentTbl["Params"] = "PaymentType=Postpaid\nBillingNo=12\nServiceType=Electricity\n";
+            paymentTbl["Params"] = "PAYMENTTYPE=Prepaid\nNUMBER=9050010203\nSERVICETYPE=Test_Prepaid\nAMOUNT=5";
             paymentTbl["Amount"] = 3;
             paymentTbl["AmountAll"] = 3;
-            paymentTbl["CyberplatOperatorID"] = 700021;
+            paymentTbl["CyberplatOperatorID"] = 70039;
+
+            var operatorTbl = _operatorTable.NewRow();
+            operatorTbl["OsmpFormatString"] = "PaymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];DueAmt=[#AMOUNT]";
+
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+            gate.ProcessPayment(paymentTbl, operatorTbl, null);
+        }
+
+        [TestMethod]
+        public void check_status_prepaid()
+        {
+            var paymentTbl = _paymentTable.NewRow();
+            paymentTbl["TerminalID"] = 100000;
+            paymentTbl["StatusID"] = 6;
+            paymentTbl["ErrorCode"] = 0;
+            paymentTbl["Params"] = "PaymentType=Prepaid;BillingNo=9050010203;ServiceType=Test_Prepaid;DueAmt=5;ValidationCode=76392";
+            paymentTbl["Amount"] = 3;
+            paymentTbl["AmountAll"] = 3;
+            paymentTbl["CyberplatOperatorID"] = 70039;
+            paymentTbl["SessionNumber"] = "5541b12d-07db-4ef2-b075-40433a77187f";
+
+            var operatorTbl = _operatorTable.NewRow();
+            operatorTbl["OsmpFormatString"] = "PaymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];DueAmt=[#AMOUNT]";
+
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+            gate.ProcessPayment(paymentTbl, operatorTbl, null);
+        }
+
+        [TestMethod, Description("Ручная проверка")]
+        public void postpaid_full_circle()
+        {
+            var paymentTbl = _paymentTable.NewRow();
+            paymentTbl["TerminalID"] = 100000;
+            paymentTbl["StatusID"] = 0;
+            paymentTbl["ErrorCode"] = 0;
+            paymentTbl["Params"] = "PAYMENTTYPE=Postpaid\nNUMBER=9050010203\nSERVICETYPE=Electricity";
+            paymentTbl["Amount"] = 3;
+            paymentTbl["AmountAll"] = 3;
+            paymentTbl["CyberplatOperatorID"] = 70039;
+
+            var operatorTbl = _operatorTable.NewRow();
+            operatorTbl["OsmpFormatString"] = "PaymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];DueAmt=[#AMOUNT]";
+
+            var gate = new Gateways.EfawateerGateway();
+            gate.Initialize(File.ReadAllText("initialize.xml"));
+            gate.ProcessPayment(paymentTbl, operatorTbl, null);
+        }
+
+        [TestMethod]
+        public void check_status_postpaid()
+        {
+            var paymentTbl = _paymentTable.NewRow();
+            paymentTbl["TerminalID"] = 100000;
+            paymentTbl["StatusID"] = 6;
+            paymentTbl["ErrorCode"] = 0;
+            paymentTbl["Params"] = "PaymentType=Postpaid;BillingNo=9050010203;ServiceType=Electricity;DueAmt=8.5;INQREFNO=;AllowPart=true;LOWERAMOUNT=1.50;UPPERAMOUNT=2000.50;JoebppsTrx=2016030915821204";
+            paymentTbl["Amount"] = 3;
+            paymentTbl["AmountAll"] = 3;
+            paymentTbl["CyberplatOperatorID"] = 70039;
+            paymentTbl["SessionNumber"] = "c3936677-62db-400d-b8f8-2de1768a2288";
 
             var operatorTbl = _operatorTable.NewRow();
             operatorTbl["OsmpFormatString"] = "PaymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE];DueAmt=[#AMOUNT]";
@@ -142,7 +203,7 @@ namespace EfawateerTests
             var list = new StringList("BillingNo=9010020304;ServiceType=Electricity", ";");
 
             var request = gate.BillInquiryRequest(700039, list);
-            var dueAmt = request["DueAmt"];
+            var dueAmt = request.Params["DueAmt"];
 
             list = new StringList(string.Format("BillingNo=9010020304;ServiceType=Electricity;DueAmt={0}", dueAmt), ";");
 
