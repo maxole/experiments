@@ -40,7 +40,7 @@ namespace EfawateerTests
             paymentTbl["TerminalID"] = 100000;
             paymentTbl["StatusID"] = 0;
             paymentTbl["ErrorCode"] = 0;
-            paymentTbl["Params"] = "PAYMENTTYPE=Prepaid\nNUMBER=9050010203\nSERVICETYPE=Test_Prepaid\nAMOUNT=5";
+            paymentTbl["Params"] = "AMOUNT=51\nSERVICETYPE=Prepaid\nPAYMENTTYPE=Prepaid\n";
             paymentTbl["Amount"] = 3;
             paymentTbl["AmountAll"] = 3;
             paymentTbl["CyberplatOperatorID"] = 70039;
@@ -175,7 +175,7 @@ namespace EfawateerTests
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
 
-            var list = new StringList("ServiceType=Prepaid;BillingNo=9010020304;DueAmt=43.12", ";");
+            var list = new StringList("ServiceType=Prepaid;BillingNo=[#NUMBER];DueAmt=43.12", ";");
 
             var request = gate.PrepaidValidationRequest(700162, list);
         }
@@ -246,6 +246,14 @@ namespace EfawateerTests
             var gate = new Gateways.EfawateerGateway();
             gate.Initialize(File.ReadAllText("initialize.xml"));
             var data = gate.GetData("", "");
+        }
+
+        [TestMethod]
+        public void foo()
+        {
+            var format = "PaymentType=[#PAYMENTTYPE];BillingNo=[#NUMBER];ServiceType=[#SERVICETYPE]";
+            var p = "AMOUNT=15\nSERVICETYPE=Prepaid\nPAYMENTTYPE=Prepaid\n";
+            var formatParameters = p.FormatParameters(format);
         }
     }
 }
